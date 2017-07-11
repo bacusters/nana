@@ -18,13 +18,18 @@
 
 namespace nana
 {
-	/// The monitor display metrics
+	/**
+	 * \brief Class for monitor display metrics
+	 */
 	class display
 	{
 	public:
 		virtual ~display() = default;
 
-		/// The index of monitor.
+		/**
+		 * \brief Retrieves the monitor index
+		 * \returns Index of the monitor
+		 */
 		virtual std::size_t get_index() const = 0;
 
 		virtual bool is_primary_monitor() const = 0;

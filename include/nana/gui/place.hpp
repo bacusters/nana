@@ -24,12 +24,15 @@ namespace nana
 {
 	namespace paint
 	{
+		//Forward declare
 		class graphics;
 	}
-
+	//Forward declare
 	class widget;
+
 	namespace detail
 	{
+
 		class place_agent
 		{
 		public:
@@ -77,8 +80,12 @@ namespace nana
 	class place
 		: ::nana::noncopyable
 	{
+		//Forward declare implementation
 		struct implement;
 
+		/**
+		 * \brief Class for interacting with fields in the layout.
+		 */
 		class field_interface
 		{
 			field_interface(const field_interface&) = delete;
@@ -106,8 +113,19 @@ namespace nana
         ///  reference to a field manipulator which refers to a field object created by place 
 		using field_reference = field_interface &;
 
+		/**
+		 * \brief Sets up the unbound place object
+		 */
 		place();
-		place(window);///< Attaches to a specified widget.
+		/**
+		 * \brief Sets up a place object for the specified window
+		 * \param wd The window to attach to
+		 */
+		place(window wd);
+
+		/**
+		 * Cleans up the placer
+		 */
 		~place();
 
 		/** @brief Bind to a window
@@ -115,27 +133,73 @@ namespace nana
 		 *	@remark	It will throw an exception if the place has already binded to a window.
 		 */
 		void bind(window handle);
+		/**
+		 * \brief Returns the associated window handle
+		 * \returns The window handle
+		 */
 		window window_handle() const;
 
+		/**
+		 * \brief Sets a custom renderer for the splitters in the layout.
+		 * \param fn The custom render function.
+		 */
 		void splitter_renderer(std::function<void(window, paint::graphics&, mouse_action)> fn);
         
-		void div(const char* s);			///< Divides the attached widget into fields.
-		const std::string& div() const noexcept;	///< Returns div-text that depends on fields status.
-		void modify(const char* field_name, const char* div_text);	///< Modifies a specified field.
+		/**
+		 * \brief Sets up the layout for the associated window of this object
+		 * \param s The string describing the layout of the widget
+		 */
+		void div(const char* s);
+		/**
+		 * \brief Returns div-text that depends on fields status.
+		 * \returns The layout text
+		 */
+		const std::string& div() const noexcept;
+		/**
+		 * \brief Modifies the specified field in the specified layout
+		 * \param field_name The name of the field to modify
+		 * \param div_text New layout description for the specified field
+		 */
+		void modify(const char* field_name, const char* div_text);
 
-		field_reference field(const char* name);///< Returns a field with the specified name.
+		/**
+		 * \brief Returns a field reference for the field with the specified name within the specified layout.
+		 * \param name Name of the field to return
+		 * \returns A field_interface& object
+		 */
+		field_reference field(const char* name);
 
-		void field_visible(const char* field_name, bool visible); ///<<Shows/Hides an existing field.
-		bool field_visible(const char* field_name) const;	///<Determines whether the specified field is visible.
+		/**
+		 * \brief Sets the visibility of a field within the layout
+		 * \param field_name Name of the field
+		 * \param visible Whether to make the field visible or not
+		 */
+		void field_visible(const char* field_name, bool visible);
+
+		/**
+		 * \brief Returns whether the specified field is visible
+		 * \param field_name The field
+		 * \returns Whether the field is visible or not
+		 */
+		bool field_visible(const char* field_name) const;
 
 		void field_display(const char* field_name, bool display); ///<Displays/Discards an existing field.
 		bool field_display(const char* field_name) const;	///<Determines whether the specified field is displayed.
 
-		void collocate();                     ///< Layouts the widgets.
+		/**
+		 * \brief Applies the layout with the given child widgets to the associated window
+		 * \remark Call is relayed to the implementation struct
+		 */
+		void collocate();
 
  		void erase(window handle);				///< Erases a window from field.
-
-		field_reference operator[](const char* name); ///< Returns a field with the specified name. Equal to field();
+		
+		/**
+		 * \brief Syntactic sugar for the place::field(const char* name) methods
+		 * \param name The name of the field to return.
+		 * \returns The specified field, as field_interface&.
+		 */
+		field_reference operator[](const char* name);
 
 		/// Add a panel factory
 		template<typename Panel, typename ...Args>
@@ -146,7 +210,9 @@ namespace nana
 				return std::unique_ptr<widget>(new Panel(parent, std::forward<Args>(args)...));
 			}, std::placeholders::_1, args...));
 		}
-
+		/**
+		 * \brief 
+		 */
 		place& dock(const std::string& dockname, std::string factory_name, std::function<std::unique_ptr<widget>(window)> factory);
 		widget* dock_create(const std::string& factory);
 	private:

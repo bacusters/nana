@@ -20,42 +20,83 @@
 
 namespace nana
 {  
-       /// Can repeatedly call a piece of code.
-
+    /**
+     * \brief Event for timer elapse.s
+     */
 	struct arg_elapse
 		: public event_arg
 	{
-		long long id;	//timer identifier;
+		///Timer identifier
+		long long id;	
 	};
 
+	/**
+	 * \brief Timer class
+	 */
 	class timer
 	{
+		///The implementation
 		struct implement;
 
+		///Delete copy constructor
 		timer(const timer&) = delete;
+		///Delete copy assignment
 		timer& operator=(const timer&) = delete;
+		///Delete move constructor
 		timer(timer&&) = delete;
+		///Delete move assignment
 		timer& operator=(timer&&) = delete;
 	public:
+		/**
+		 * \brief Constructs an empty timer
+		 */
 		timer();
 
 		~timer();
 
+		/**
+		 * \brief Connects an elapse listener to the events of the timer
+		 * \param fn The elapse listener
+		 */
 		template<typename Function>
 		void elapse(Function && fn)
 		{
 			elapse_.connect(std::forward<Function>(fn));
 		}
 
+		/**
+		 * \brief Resets the timer
+		 */
 		void reset();
+		/**
+		 * \brief Starts the timer
+		 */
 		void start();
+		/**
+		 * \brief Returns whether the timer was started
+		 * \returns Whether the timer was started
+		 */
 		bool started() const;
+		/**
+		 * \brief Stops the timer
+		 */
 		void stop();
 
-		void interval(unsigned milliseconds);   ///< Set the duration between calls (millisec ??)
+		/**
+		 * \brief Set the duration between calls of the elapse listeners
+		 * \param milliseconds The interval
+		 */
+		void interval(unsigned milliseconds);
+
+		/**
+		 * \brief Returns the interval in milliseconds between elapse listener calls.
+		 * \returns The interval
+		 */
 		unsigned interval() const;
 	private:
+		///The elapse event emitter
 		nana::basic_event<arg_elapse> elapse_;
+		///The implementation
 		implement * const impl_;
 	};
 }//end namespace nana

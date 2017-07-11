@@ -29,18 +29,31 @@ namespace nana
 
 	class any
 	{
+		/**
+		 * \brief Interface for a content holder
+		 */
 		class content_interface
 		{
 		public:
 			virtual ~content_interface() = default;
 			
+			/**
+			 * \brief Returns typeinfo for the type of the content
+			 */
 			virtual const std::type_info& type() const noexcept = 0;
+			/**
+			 * \brief Clones the content
+			 */
 			virtual content_interface* clone() const = 0;
 		};
 
+		/**
+		 * \brief Content holder implementation for the specified value type.
+		 */
 		template<typename Value>
 		class holder : public content_interface
 		{
+			//Delete copy operator
 			holder& operator=(const holder&) = delete;
 		public:
 			holder(const Value& other)
@@ -118,6 +131,9 @@ namespace nana
 		return any_cast<const value_type&>(const_cast<any&>(operand));
 	}
 
+	/**
+	 * \brief Casts an nana::any object to a value type.
+	 */
 	template<typename Value>
 	Value any_cast(any& operand)
 	{

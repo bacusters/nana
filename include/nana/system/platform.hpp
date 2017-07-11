@@ -19,25 +19,36 @@ namespace nana
 {
 namespace system
 {
-	//sleep
-	//@brief: suspend current thread for a specified milliseconds.
-	//its precision is depended on hardware.
+	/**
+	 * \brief Suspend current thread for a specified milliseconds.
+	 * The precision of the time slept is depended on hardware.
+	 * \param milliseconds The amount of seconds to susped the thread
+	 */
 	void sleep(unsigned milliseconds);
 
-	//this_thread_id
-	//@brief: get the identifier of calling thread.
+	/**
+	 * \brief Returns the identifier of the calling thread
+	 * \returns The thread ID
+	 */
 	unsigned long this_thread_id();
 
-	//timestamp
-	//@brief: it retrieves the timestamp at the time the function is called.
-	//		it is easy for get the number of milliseconds between calls.
+	/**
+	 * \brief Retrieves the timestamp of the time the function is called.
+	 * \returns The timestamp
+	 */
 	unsigned long timestamp();
 
-	//get_async_mouse_state
-	//@brief: it determines whether a mouse button was pressed at the time the function is called.
+	/**
+	 * \brief Determines whether the given mouse button was pressed at the time the function is called.
+	 * \param button The mouse button to check
+	 * \returns Whether the mouse button was pressed 
+	*/
 	bool get_async_mouse_state(int button);
 
-	//open an url through a default browser
+	/**
+	 * \brief Opens a URL using the default browser on the system
+	 * \param url The URL
+	 */
 	void open_url(const std::string& url);
 
 }//end namespace system

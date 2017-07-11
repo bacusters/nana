@@ -498,6 +498,7 @@ namespace API
 		if (native_handle)
 		{
 			iwd->flags.dropable = enb;
+			//Enable/Disable drag/drop on the native root window
 			interface_type::enable_dropfiles(native_handle, enb);
 		}
 	}
@@ -996,7 +997,7 @@ namespace API
 		else
 			return;
 
-		//modal has to guarantee that does not lock the mutex of window_manager before invokeing the pump_event,
+		//modal has to guarantee that does not lock the mutex of window_manager before invoking the pump_event,
 		//otherwise, the modal will prevent the other thread access the window.
 		restrict::bedrock.pump_event(wd, true);
 	}

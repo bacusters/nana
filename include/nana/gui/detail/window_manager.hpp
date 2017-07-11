@@ -37,12 +37,18 @@ namespace nana
 namespace nana{
 namespace detail
 {
-	class widget_notifier_interface;	//forward declaration
-
+	//Forward declaration
+	class widget_notifier_interface;	
 	struct root_misc;
 
+	/**
+	 * \brief Manager for all Nana windows
+	 */
 	class window_manager
 	{
+		/**
+		 * \brief 
+		 */
 		class revertible_mutex
 		{
 			revertible_mutex(const revertible_mutex&) = delete;
@@ -91,9 +97,11 @@ namespace detail
 #endif
 		void close(core_window_t*);
 
-		//destroy
-		//@brief:	Delete the window handle
-		void destroy(core_window_t*);
+		/**
+		 * \brief Delete the given window
+		 * \param window The window
+		 */
+		void destroy(core_window_t* window);
 
 		//destroy_handle
 		//@brief:	Delete window handle, the handle type must be a root and a frame.
@@ -126,7 +134,13 @@ namespace detail
 		bool get_graphics(core_window_t*, nana::paint::graphics&);
 		bool get_visual_rectangle(core_window_t*, nana::rectangle&);
 
-		std::vector<core_window_t*> get_children(core_window_t*) const;
+		/**
+		 * \brief Returns the children of the window, if the window is available.
+		 * If the window is not available, an empty vector will be returned.
+		 * \param window The specified window
+		 * \returns Vector of children
+		 */
+		std::vector<core_window_t*> get_children(core_window_t* window) const;
 		bool set_parent(core_window_t* wd, core_window_t* new_parent);
 		core_window_t* set_focus(core_window_t*, bool root_has_been_focused, arg_focus::reason);
 
@@ -137,8 +151,13 @@ namespace detail
 		void capture_window(core_window_t*, bool capture, bool ignore_children_if_captured);
 
 		void enable_tabstop(core_window_t*);
+
 		core_window_t* tabstop(core_window_t*, bool forward) const;	//forward means move to next in logic.
 
+		/**
+		 * \brief Deletes all handles, designated as thrash, for the specified thread id.
+		 * \param tid The thread ID. If set to zero, all thrash will be deleted.
+		 */
 		void remove_trash_handle(unsigned tid);
 
 		bool enable_effects_bground(core_window_t*, bool);
@@ -158,7 +177,12 @@ namespace detail
 	private:
 		void _m_disengage(core_window_t*, core_window_t* for_new);
 		void _m_destroy(core_window_t*);
-		void _m_move_core(core_window_t*, const point& delta);
+		/**
+		 * \brief Moves a core window by a given amount.
+		 * \param window The window
+		 * \param delta The amount to move
+		 */
+		void _m_move_core(core_window_t* window, const point& delta);
 		core_window_t* _m_find(core_window_t*, const point&);
 		static bool _m_effective(core_window_t*, const point& root_pos);
 	private:

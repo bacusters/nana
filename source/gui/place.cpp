@@ -738,9 +738,15 @@ namespace nana
 		vert	//Fits height of content with a specified width
 	};
 
+	/**
+	 * \brief Abstract definition for a division in the layout
+	 */
 	class place::implement::division
 	{
 	public:
+		/**
+		 * \brief Enum for kinds of divisions
+		 */
 		enum class kind{ arrange, vertical_arrange, grid, splitter, dock, dockpane};
 
 		division(kind k, std::string&& n) noexcept
@@ -1018,11 +1024,19 @@ namespace nana
 			return px;
 		}
 
+		/**
+		 * \brief Returns whether the associated weight of the division is fixed
+		 * \returns Whether the weight is fixed.
+		 */
 		bool is_fixed() const
 		{
 			return (weight.kind_of() == number_t::kind::integer);
 		}
 
+		/**
+		* \brief Returns whether the associated weight of the division is percentual
+		* \returns Whether the weight is percentual.
+		*/
 		bool is_percent() const
 		{
 			return (weight.kind_of() == number_t::kind::percent);
@@ -1033,6 +1047,10 @@ namespace nana
 			return margin.area(field_area);
 		}
 
+		/**
+		 * \brief Returns the previous division, if present
+		 * \returns The pointer to the previous division
+		 */
 		division * previous() const noexcept
 		{
 			if (div_owner)
@@ -1071,13 +1089,20 @@ namespace nana
 		//The window parameter is specified for the window which the place object binded.
 		virtual void collocate(window) = 0;
 	public:
+		///\brief The kind of division
 		kind kind_of_division;
+		///Whether the division is displayed
 		bool display{ true };
+		///Whether the division is visible
 		bool visible{ true };
+		///The fit policy for this division
 		fit_policy fit{ fit_policy::none };
 		repeated_array fit_parameters; //it is ignored when fit is not fit_policy::horz or fit_policy::vert
+		///Direction of the layout
 		::nana::direction dir{::nana::direction::west};
+		///Name of the layout
 		std::string name;
+		///Array of children
 		std::vector<std::unique_ptr<division>> children;
 
 		::nana::rectangle field_area;

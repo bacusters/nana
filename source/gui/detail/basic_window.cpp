@@ -382,14 +382,18 @@ namespace nana
 
 			void basic_window::_m_initialize(basic_window* agrparent)
 			{
+				//Handle root window
 				if(category::flags::root == other.category)
 				{
+					//Unset parent pointer when thread id's do not match
 					if(agrparent && (nana::system::this_thread_id() != agrparent->thread_id))
 						agrparent = nullptr;
 
+					//Find root window
 					while(agrparent && (category::flags::root != agrparent->other.category))
 						agrparent = agrparent->parent;
 				
+					//Set the owner of the window to the root window
 					owner = agrparent;
 					parent = nullptr;
 					index = 0;

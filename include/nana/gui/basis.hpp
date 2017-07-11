@@ -22,6 +22,7 @@
 
 namespace nana
 {
+	//Forward declare
 	namespace detail
 	{
 		struct native_window_handle_impl{};
@@ -35,6 +36,8 @@ namespace nana
 		unchecked, checked, partial
 	};
 
+	/// \enum window_border
+	/// \brief Enum describing window border locations
 	enum class window_border
 	{
 		none,
@@ -42,6 +45,10 @@ namespace nana
 		top_left, top_right, bottom_left, bottom_right
 	};
 
+	/**
+	 * \enum bground_mode
+	 * \brief Enum for background mode
+	 */
 	enum class bground_mode
 	{
 		none,
@@ -75,9 +82,14 @@ namespace nana
 	using event_handle = detail::event_handle_impl*;
 	using native_drawable_type = detail::native_drawable_impl*;
 
-
+	/**
+	 * \brief Struct for holding keyboard specfic data
+	 */
 	struct keyboard
 	{
+		/**
+		 * \brief Enum for special control characters.
+		 */
 		enum{
 			//Control Code for ASCII
 			start_of_headline = 0x1,	//Ctrl+A
@@ -111,6 +123,9 @@ namespace nana
 		};
 	};
 
+	/**
+	 * \brief Enum for cursor types
+	 */
 	enum class cursor
 	{
 		hand	= 60,     ///< displays a hand to indicate a text or an element is clickable
@@ -125,6 +140,9 @@ namespace nana
 		size_bottom_right = 14
 	};
 
+	/**
+	 * \brief Enum for mouse buttons
+	 */
 	enum class mouse
 	{
 		any_button, 
@@ -133,6 +151,9 @@ namespace nana
 		right_button
 	};
 
+	/**
+	 * \brief Enum describing z-order actions on windows
+	 */
 	enum class z_order_action
 	{
 		none, 
@@ -142,17 +163,24 @@ namespace nana
 		foreground    ///< brings a window to the foreground.
 	};
 
-	/// Window appearance structure defined to specify the appearance of a form
+	/**
+	 * \brief Window appearance structure defined to specify the appearance of a form
+	 */
 	struct appearance
 	{
+		/// 
 		bool taskbar;
+		///Whether the window is floating
 		bool floating;
 		bool no_activate;
 
+		///Whether the window has a minimize button
 		bool minimize;
+		///Whether the window has a maximize button
 		bool maximize;
+		///Whether the window is resizable
 		bool sizable;
-
+		///Whether the window has decoration
 		bool decoration;
 
 		appearance();
@@ -287,7 +315,9 @@ that return a corresponding nana::appearance with predefined values.
 
 	namespace parameters
 	{
-		/// The system-wide parameters for mouse wheel
+		/**
+		 * \brief The system-wide parameters for mouse wheel
+		 */
 		struct mouse_wheel
 		{
 			unsigned lines;			///< The number of lines to scroll when the vertical mouse wheel is moved.

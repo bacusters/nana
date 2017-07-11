@@ -22,10 +22,17 @@ namespace nana
 	{
 		namespace tooltip
 		{
+			/**
+			 * \brief Drawing implementation for the tooltip
+			 */
 			class drawer
 				: public drawer_trigger
 			{
 			private:
+				/**
+				 * \brief Refreshes the view
+				 * \param graph The graphics object reference
+				 */
 				void refresh(graph_reference graph)
 				{
 					graph.rectangle(false, colors::black);
@@ -155,6 +162,9 @@ namespace nana
 				std::size_t	duration_;
 			};//end class tip_form
 
+			/**
+			 * \brief Controller class for tooltips
+			 */
 			class controller
 			{
 				typedef std::pair<window, std::string> pair_t;
@@ -176,6 +186,9 @@ namespace nana
 				};
 
 			public:
+				/**
+				 * \brief Retrieves the factory 
+				 */
 				static std::shared_ptr<nana::tooltip::factory_if_type>& factory()
 				{
 					static std::shared_ptr<nana::tooltip::factory_if_type> fp;

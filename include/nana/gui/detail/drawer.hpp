@@ -81,11 +81,17 @@ namespace nana
 	{
 		struct basic_window;
 
-		//@brief:	Every window has a drawer, the drawer holds a drawer_trigger for
-		//			a widget.
+		/**
+		 * \brief Class for drawing a window
+		 * Contains a reference to a drawer trigger for actually drawing.
+		 * Is associated with a widget
+		 */
 		class drawer
 			: nana::noncopyable, nana::nonmovable
 		{
+			/**
+			 * Enum for current method state
+			 */
 			enum class method_state
 			{
 				pending,
@@ -96,7 +102,11 @@ namespace nana
 			drawer();
 			~drawer();
 
-			void bind(basic_window*);
+			/**
+			 * \brief Binds the drawer to a window
+			 * \param window The window to bind to
+			 */
+			void bind(basic_window* window);
 
 			void typeface_changed();
 			void click(const arg_click&);

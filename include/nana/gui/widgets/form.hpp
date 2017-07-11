@@ -18,21 +18,33 @@
 
 namespace nana
 {
+	//Forward declare
 	class place;
 
 	namespace drawerbase
 	{
 		namespace form
 		{
+			/**
+			 * \brief Drawer trigger for nana::form class
+			 */
 			class trigger: public drawer_trigger
 			{
 			public:
-				void attached(widget_reference, graph_reference)	override;
+				/**
+				 * \brief Handles the attaching of the s
+				 * \param widget Reference to the widget
+				 * \param graph Reference to the graphcis object
+				 */
+				void attached(widget_reference widget, graph_reference graph)	override;
 				void refresh(graph_reference)	override;
 			private:
 				widget*	wd_{nullptr};
 			};
 
+			/**
+			 * \brief Base inplementation of the form class.
+			 */
 			class form_base
 				: public widget_object<category::root_tag, drawerbase::form::trigger, detail::events_root_extension>
 			{
@@ -51,22 +63,31 @@ namespace nana
 		}//end namespace form
 	}//end namespace drawerbase
 
-	/// \brief Pop-up window. Is different from other window widgets: its default  constructor create the window.
-	/// \see nana::appearance
+	/**
+	 * \brief Pop-up window. Is different from other window widgets: its default  constructor create the window.
+	 * \see nana::appearance
+	 */
 	class form
 		: public drawerbase::form::form_base
 	{
 	public:
 		using appear = ::nana::appear;
 
-		/// Creates a window at the point and size specified by rect, and with the specified appearance. Creates a form owned by the desktop.
+		/**
+		 * \brief Creates a window using the specified rect for locationand dimensions., and with the specified appearance. Creates a form owned by the desktop.
+		 */
 		form(const rectangle& = API::make_center(300, 200), const appearance& = {});	//Default constructor
 		form(const form&, const ::nana::size& = { 300, 200 }, const appearance& = {});	//Copy constructor
 		form(window, const ::nana::size& = { 300, 200 }, const appearance& = {});
         /// Creates a window at the point and size specified by rect, with the specified appearance. This window is always floating above its owner.
 		form(window, const rectangle&, const appearance& = {});
 
+		/**
+		 * \brief Makes the form a modal window, blocking other interactions until the window is closed.
+		 */
 		void modality() const;
+
+
 		void wait_for_this();
 	};
 

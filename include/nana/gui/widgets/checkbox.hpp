@@ -89,9 +89,15 @@ namespace drawerbase
 		void transparent(bool value);
 		bool transparent() const;
 	};//end class checkbox
-    /// for managing checkboxs in radio mode
+    
+	/**
+	 * \brief Manages checkboxes in radio mode
+	 */
 	class radio_group
 	{
+		/**
+		 * \brief Represents a checkbox in the radiogroup
+		 */
 		struct element_tag
 		{
 			checkbox * uiobj;
@@ -101,10 +107,19 @@ namespace drawerbase
 		};
 	public:
 		~radio_group();
-		void add(checkbox&);
-		std::size_t checked() const;       ///< Retrieves the index of the checkbox which is checked.
+		/**
+		 * \brief Adds a checkbox to the radiogroup
+		 * \param cb The checkbox
+		 */
+		void add(checkbox& cb);
+		/**
+		 * \brief Retrieves the index of the checkbox which is checked.
+		 * \returns The checked index
+		 */
+		std::size_t checked() const;
 		std::size_t size() const;
 	private:
+		///Container for checkboxes
 		std::vector<element_tag> ui_container_;
 	};
 }//end namespace nana

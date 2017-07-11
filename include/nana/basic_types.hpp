@@ -74,7 +74,7 @@ namespace nana
 
 	namespace detail
 	{
-		struct drawable_impl_type;	//declearation, defined in platform_spec.hpp
+		struct drawable_impl_type;	//declaration, defined in platform_spec.hpp
 	}
 
 	namespace paint
@@ -82,11 +82,17 @@ namespace nana
 		typedef nana::detail::drawable_impl_type*	drawable_type;
 	}
 
+	/**
+	 * \brief Enum for possible mouse actions
+	 */
 	enum class mouse_action
 	{
 		begin, normal = begin, normal_captured, hovered, pressed, end
 	};
 
+	/**
+	 * \brief Enum for possible states
+	 */
 	enum class element_state
 	{
 		normal,
@@ -97,6 +103,9 @@ namespace nana
 		disabled
 	};
 
+	/**
+	 * \brief Union for ARGB pixels
+	 */
 	union pixel_argb_t
 	{
 		struct element_tag
@@ -109,6 +118,9 @@ namespace nana
 		unsigned value;
 	};
 
+	/**
+	 * \brief Union for RGBA pixels
+	 */
 	union pixel_rgba_t
 	{
 		struct element_tag
@@ -289,22 +301,78 @@ namespace nana
 	enum class color_argb:	unsigned{};
 	enum class color_rgba : unsigned{};
 
+	/**
+	 * \brief Class for representing colors with high precision
+	 */
 	class color
 	{
 	public:
+		/**
+		 * \brief Initialize color with black value
+		 */
 		color() = default;
-		color(colors);
-		color(colors, double alpha);
-		color(color_rgb);
-		color(color_argb);
-		color(color_rgba);
+		
+		/**
+		* \brief Intialize color from a predefined color
+		* \param color The predefined color
+		*/
+		color(colors color);
+
+		/**
+		* \brief Intialize color from a predefined color
+		* \param color The predefined color
+		* \param alpha Alpha value
+		*/
+		color(colors color, double alpha);
+
+		/**
+		* \brief Intialize color from RGB element
+		* \param color RGB color
+		*/
+		color(color_rgb color);
+		
+		/**
+		* \brief Intialize color from ABGR element
+		* \param color ABGR color
+		*/
+		color(color_argb color);
+		
+		/**
+		 * \brief Intialize color from RGBA element
+		 * \param color RGBA color
+		 */
+		color(color_rgba color);
+
+		/**
+		 * \brief Initialize color from RGBA values
+		 * \param red Red component
+		 * \param green Green component
+		 * \param blue Blue component
+		 * \param alpha Alpha component. Defaults to 1.0
+		 */
 		color(unsigned red, unsigned green, unsigned blue, double alpha = 1.0);
 
-		/// Initializes the color with a CSS-like rgb string.
+		/**
+		 * \brief Initializes the color with a CSS-like rgb string.
+		 * \param css_rgb String representing rgb values
+		 */
 		explicit color(std::string css_rgb);
 
-		color& alpha(double);	///< Sets alpha channel
-		color& from_rgb(unsigned red, unsigned green, unsigned blue);		///< immutable alpha channel
+		/**
+		 * \brief Sets alpha channel
+		 * \param alpha The alpha value
+		 * \returns The modified color.
+		 */
+		color& alpha(double alpha);
+
+		/**
+		 * \brief Initializes the color from RGB values
+		 * \param red Red value
+		 * \param green Green value
+		 * \param blue Blue value
+		 * \returns The modified color
+		 */
+		color& from_rgb(unsigned red, unsigned green, unsigned blue);
 
 		/// Sets color with a HSL value.
 		/// @param hue in range of [0, 360]
@@ -312,17 +380,60 @@ namespace nana
 		/// @param lightness  in range of [0, 1]
 		color& from_hsl(double hue, double saturation, double lightness);	///< immutable alpha channel
 
+		/**
+		 * \brief Linearly interpolates this color with the given color, where alpha specifies the amount of new colour.
+		 * \param blending_color The color to blend this color with.
+		 * \param alpha Amount of the new colour to use.
+		 * \returns The blended color.
+		 */
 		color blend(const color& blending_color, double alpha) const;
 
-		/// Determines whether the color is completely transparent.
+		/**
+		 * \brief Determines whether the color is completely transparent.
+		 * \returns Whether this color is transparent
+		 */
 		bool invisible() const;
+		
+		/**
+		 * \brief Returns the color as a pixel color.
+		 * \returns The pixel color
+		 */
 		pixel_color_t px_color() const;
+		
+		/**
+		* \brief Returns the color as an ARGB pixel color.
+		* \returns The pixel color
+		*/
 		pixel_argb_t argb() const;
+		
+		/**
+		* \brief Returns the color as an RGBA pixel color.
+		* \returns The pixel color
+		*/
 		pixel_rgba_t rgba() const;
 
+		/**
+		 * \brief Returns a reference to the Red component
+		 * \returns Reference to the component
+		 */
 		const double& r() const;
+		
+		/**
+		* \brief Returns a reference to the Green component
+		* \returns Reference to the component
+		*/
 		const double& g() const;
+		
+		/**
+		* \brief Returns a reference to the Blue component
+		* \returns Reference to the component
+		*/
 		const double& b() const;
+		
+		/**
+		* \brief Returns a reference to the Apha component
+		* \returns Reference to the component
+		*/
 		const double& a() const;
 
 		bool operator==(const color& other) const;
@@ -342,8 +453,9 @@ namespace nana
 		//typedef-names
 		using value_type = T;
 
-		//data member
+		///X member
 		value_type x{};
+		///Y member
 		value_type y{};
 
 		//member functions
@@ -411,48 +523,192 @@ namespace nana
 	using point = basic_point<int>;
 	using upoint = basic_point<unsigned>;
 
+	/**
+	 * \brief Struct representing dimensions
+	 */
 	struct size
 	{
 		using value_type = unsigned;
+		/**
+		 * \brief Creates an empty size with width = height = 0.
+		 */
 		size();
+
+		/**
+		 * \brief Creates a size struct of the given dimensions
+		 * \param width The width
+		 * \param height The height
+		 */
 		size(value_type width, value_type height);
 
-		bool empty() const;		///< true if width * height == 0
-		bool is_hit(const point&) const;	///< Assume it is a rectangle at (0,0), and check whether a specified position is in the rectange.
+		/**
+		 * \brief Checks whether the size is empty
+		 * Emptyness is defined as width * height == 0
+		 * \returns Whether the size is empty
+		 */
+		bool empty() const;
+
+		/**
+		 * \brief Checks whether the given point lies within the dimensions.
+		 * It is assumed that the size struct represent a rectangle at location (0,0). Then, the check is
+		 * made whether the x- and y-coordinates of the point lie within [0, width) and [0, height).
+		 * \param point The point to test
+		 * \returns Whether the point lies within this size struct.
+		 */
+		bool is_hit(const point& point) const;
+
+		/**
+		 * \brief Swaps the width and height of the size struct
+		 * \returns The modified size struct
+		 */
 		size& shift();
 
+		/**
+		 * \brief Checks whether this size equals another size struct
+		 * \param rhs The other size struct.
+		 * \returns Whether the sizes are equal.
+		 */
 		bool operator==(const size& rhs) const;
+		
+		/**
+		* \brief Checks whether this size does not equal another size struct
+		* \param rhs The other size struct.
+		* \returns Whether the sizes are not equal.
+		*/
 		bool operator!=(const size& rhs) const;
-		size operator+(const size&) const;
 
+		/**
+		 * \brief Operator for adding another size to this size.
+		 * \param other The other size
+		 * \returns A new size struct with the combined width and height of this size and the other size.
+		 */
+		size operator+(const size& other) const;
+
+		///The width member
 		value_type width;
+		///The height member
 		value_type height;
 	};
 
+	/**
+	 * \brief Rectangle representation
+	 */
 	struct rectangle
 	{
-		rectangle();										 ///< a zero-size rectangle at (0, 0).
+		/**
+		 * \brief Creates a rectangle of dimensions (0, 0) at (0, 0).
+		 */
+		rectangle();
+		/**
+		 * \brief Creates a rectangle at the specified location with the given dimensions
+		 * \param x X coordinate
+		 * \param y Y coordinate
+		 * \param width The width of the rectangle
+		 * \param height The height of the rectangle
+		 */
 		rectangle(int x, int y, unsigned width, unsigned height);
-		explicit rectangle(const size &);					///< a rectangle with specified size at coordinate (0, 0).
-		explicit rectangle(const point&, const size& = size());
+		
+		/**
+		 * \brief Creates a rectangle of the specified dimensions at (0,0).
+		 * \param size The dimensions of the rectangle
+		 */
+		explicit rectangle(const size & size);
+		/**
+		 * \brief Creates a rectangle of the specified dimensions at the specified location
+		 * \param point The location of the rectangle
+		 * \param dims The dimensions of the rectangle. Defaults to empty size
+		 */
+		explicit rectangle(const point& point, const size& dims = size());
 
+		/**
+		 * \brief Checks equality between this rectangle and the other
+		 * \param rhs The other rectangle
+		 * \returns Whether the rectangles are equal
+		 */
 		bool operator==(const rectangle& rhs) const;
+		
+		/**
+		* \brief Checks nonequality between this rectangle and the other
+		* \param rhs The other rectangle
+		* \returns Whether the rectangles are not equal
+		*/
 		bool operator!=(const rectangle& rhs) const;
 
+		/**
+		 * \brief Returns the position of the rectangle
+		 * \returns Position of the rectangle as nana::point struct.
+		 */
 		point position() const noexcept;
-		rectangle& position(const point&) noexcept;
 
+		/**
+		* \brief Sets the position of the rectangle and returns this modified rectangle
+		* \param point New position for the rectangle.
+		* \returns The modified rectangle
+		*/
+		rectangle& position(const point& point) noexcept;
+
+		/**
+		* \brief Returns the dimensions of the rectangle
+		* \returns Dimensions of the rectangle as nana::size struct.
+		*/
 		size dimension() const noexcept;
-		rectangle& dimension(const size&) noexcept;
 
-		rectangle& pare_off(int pixels);	 ///<Pares the specified pixels off the rectangle. It's equal to x += pixels; y + pixels; width -= (pixels << 1); height -= (pixels << 1);
+		/**
+		* \brief Sets the dimensions of the rectangle and returns this modified rectangle
+		* \param size New dimensions for the rectangle.
+		* \returns The modified rectangle
+		*/
+		rectangle& dimension(const size& size) noexcept;
 
+		/**
+		 * \brief Shrinks the rectangle towards the center by the given amount of pixels.
+		 * \param pixels The number of pixels to shrink from each side of the rectangle
+		 * \returns The modified rectangle
+		 */
+		rectangle& pare_off(int pixels);
+
+		/**
+		 * \brief Returns the right side of the rectangle
+		 * This is calculated as x + width
+		 * \returns The right side location
+		 */
 		int right() const noexcept;
+		
+		/**
+		* \brief Returns the bottom side of the rectangle
+		* This is calculated as y + height
+		* \returns The bottom side location
+		*/
 		int bottom() const noexcept;
+
+		/**
+		 * \brief Returns whether the given x and y coordinate lie within the rectangle.
+		 * Checks that x is within [this->x, this->x + width) and y is within [this->y, this->y + height)
+		 * \param x The x coordinate
+		 * \param y The y coordinate
+		 * \returns Whether the location is contained in the rectangle.
+		 */
 		bool is_hit(int x, int y) const;
+
+		/**
+		 * \brief Convenience overload for is_hit(int x, int y), accepting a point instead.
+		 * \param pos The location
+		 * \returns Whether the location is contained in the rectangle.
+		 */
 		bool is_hit(const point& pos) const;
-		bool empty() const;		///< true if width * height == 0.
-		rectangle& shift();	///< Swap position x and y, size width and height.
+
+		/**
+		 * \brief Checks whether the rectangle is empty
+		 * Empty is defined as width * height == 0.
+		 * \returns Whether the rectangle is empty
+		 */
+		bool empty() const;
+
+		/**
+		 * \brief Transposes the rectangle, swapping x and y, and width and height
+		 * \returns The modified rectangle.
+		 */
+		rectangle& shift();
 
 		int x;
 		int y;

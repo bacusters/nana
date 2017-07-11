@@ -41,6 +41,10 @@ namespace nana
 	typedef timer_core* timer_identifier;
 #endif
 
+	/**
+	 * \brief Driver to create timers with. 
+	 * Contains platform implementations
+	 */
 	class timer_driver
 	{
 		typedef std::lock_guard<std::recursive_mutex> lock_guard;
@@ -49,6 +53,10 @@ namespace nana
 
 		timer_driver() = default;
 	public:
+		/**
+		 * \brief Retrieves an instance of the timer driver
+		 * \returns Reference to the timer_driver object
+		 */
 		static timer_driver& instance()
 		{
 			static timer_driver obj;
@@ -59,7 +67,7 @@ namespace nana
 		timer_core* create(unsigned ms, Factory && factory)
 		{
 #if defined(NANA_WINDOWS)
-			auto tmid = ::SetTimer(nullptr, 0, ms, &timer_driver::_m_timer_proc);
+			timer_identifier tmid = ::SetTimer(nullptr, 0, ms, &timer_driver::_m_timer_proc);
 #endif
 			try
 			{
@@ -80,6 +88,10 @@ namespace nana
 			return nullptr;
 		}
 
+		/**
+		 * \brief Destroys a created timer
+		 * \param tid The timer identifier
+		 */
 		void destroy(timer_identifier tid)
 		{
 			lock_guard lock(mutex_);
@@ -101,10 +113,15 @@ namespace nana
 		static void _m_timer_proc(std::size_t id);
 #endif
 	private:
+		///Mutex for locking
 		std::recursive_mutex	mutex_;
+		///Table of instantiated timers
 		std::map<timer_identifier, std::unique_ptr<timer_core>>	timer_table_;
 	};
 
+	/**
+	 * \brief Implementation of a timer
+	 */
 	class timer_core
 	{
 	public:
@@ -118,11 +135,15 @@ namespace nana
 		{}
 #endif
 
+		/**
+		 * \brief Returns the id of the timer
+		 * \returns The ID. 
+		 */
 		timer_identifier id() const
 		{
 			return timer_;
 		}
-
+		
 		void interval(unsigned ms)
 		{
 #if defined(NANA_WINDOWS)

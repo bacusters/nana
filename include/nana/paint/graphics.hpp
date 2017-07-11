@@ -74,20 +74,54 @@ namespace nana
 		{
 		public:
 			graphics();
-			graphics(const ::nana::size&);                 ///< size in pixel
-			graphics(const graphics&);      ///< the resource is not copyed, the two graphics objects refer to the *SAME* resource
-			graphics& operator=(const graphics&);
+			/**
+			 * \brief Initializes the graphics object with the given size in pixels
+			 * \param size Size in pixels
+			 */
+			graphics(const ::nana::size& size);
+			/**
+			 * \brief Creates a graphics object that refers to the *SAME* object as given
+			 * \param obj The graphics object to refer to
+			 */
+			graphics(const graphics& obj);
+
+			/**
+			 * \brief Makes an exact copy of the other graphics object
+			 * \param other The other graphics object
+			 */
+			graphics& operator=(const graphics& other);
 
 			graphics(graphics&&);
 			graphics& operator=(graphics&&);
 
+			/**
+			 * \brief Cleanup
+			 */
 			~graphics();
 
-			bool changed() const;           ///< Returns true if the graphics object is operated
-			bool empty() const;             ///< Returns true if the graphics object does not refer to any resource.
+			/**
+			 * \brief Returns true if the graphics object is operated
+			 * \returns If the graphics object is operated
+			 */
+			bool changed() const;
+			/**
+			 * \brief Returns true if the graphics object does not refer to any resource.
+			 * \returns Whether the graphics object does not refer to any resource.
+			 */
+			bool empty() const;
+
+			/**
+			 * \brief Returns a drawable handle
+			 * \returns Pointer to drawable handle
+			 */
 			operator const void*() const;
 
+			/**
+			 * \brief Returns handle to drawable type
+			 * \returns The handle
+			 */
 			drawable_type handle() const;
+
 			const void* pixmap() const;
 			const void* context() const;
 
@@ -141,8 +175,10 @@ namespace nana
 			void set_changed();
 			void release();
 
-			/// Saves images as a windows bitmap file
-			/// @param file_utf8 A UTF-8 string to a filename
+			/**
+			 * \brief Saves images as a windows bitmap file
+			 * \param file_utf8 A UTF-8 string to a filename
+			 */
 			void save_as_file(const char* file_utf8) const throw();
 
 			::nana::color	palette(bool for_text) const;
@@ -181,13 +217,26 @@ namespace nana
 			std::unique_ptr<implementation> impl_;
 		};
 
+		/**
+		 * \brief Class for drawing rectangle corners.
+		 */
 		class draw
 		{
 		public:
+			/**
+			 * \brief Initializes the class with the given graphics object
+			 * \param graph The graphics object
+			 */
 			draw(graphics& graph);
 
+			/**
+			 * \brief Draws corners for the given rectangle, of length pixels.
+			 * \param r The rectangle to draw corners for
+			 * \param pixels The number of pixels for the corner
+			 */
 			void corner(const rectangle& r, unsigned pixels);
 		private:
+			///Reference to graphics object
 			graphics& graph_;
 		};
 	}//end namespace paint

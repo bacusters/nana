@@ -26,8 +26,12 @@
 namespace nana{
 namespace detail
 {
+	//Forward declaration
 	struct basic_window;
 
+	/**
+	 * \brief Enum for visibility states of a window
+	 */
 	enum class visible_state
 	{
 		invisible, visible, displayed
@@ -84,6 +88,9 @@ namespace detail
 	{
 		using container = std::vector<basic_window*>;
 
+		/**
+		 * \brief Enum for update state of the window
+		 */
 		enum class update_state
 		{
 			none, lazy, refreshed, request_refresh
@@ -118,15 +125,32 @@ namespace detail
 #ifndef WIDGET_FRAME_DEPRECATED
 		void frame_window(native_window_type);
 #endif
-
+		/**
+		 * \brief Checks whether this window is the ancestor of the specified window
+		 * \param wd The window to check
+		 * \reutrns Whether this window is an ancestor of the given window
+		 */
 		bool is_ancestor_of(const basic_window* wd) const;
+		/**
+		 * \brief Returns whether all ancestors of this window are visible
+		 * \returns Whether all ancestors are visible
+		 */
 		bool visible_parents() const;
+		/**
+		 * \brief Returns whether this window should be displayed
+		 * \returns Whether to display this window or not
+		 */
 		bool displayed() const;
+
 		bool belong_to_lazy() const;
 		const basic_window * child_caret() const; ///< Returns the child which owns the caret
 
 		bool is_draw_through() const;	///< Determines whether it is a draw-through window.
 
+		/**
+		 * \brief Tries to find the ''oldest'' ancestor which is a lite_widget.
+		 * \returns The ancestor that is a lite_widget.
+		 */
 		basic_window * seek_non_lite_widget_ancestor() const;
 
 		void set_action(mouse_action);
@@ -135,7 +159,14 @@ namespace detail
 		bool set_events(const std::shared_ptr<general_events>&) override;
 		general_events * get_events() const override;
 	private:
-		void _m_init_pos_and_size(basic_window* parent, const rectangle&);
+		/**
+		 * \brief Sets up position and size for this window
+		 * Takes into account the position of the parent, if specified
+		 * \param parent Parent of this window
+		 * \param rect Rectangle specifying location and dimensions of the window
+		 */
+		void _m_init_pos_and_size(basic_window* parent, const rectangle& rect);
+
 		void _m_initialize(basic_window* parent);
 	public:
 #if defined(NANA_LINUX) || defined(NANA_MACOS)
@@ -158,7 +189,8 @@ namespace detail
 		native_string_type		title;
 		::nana::detail::drawer	drawer;	    ///< Self Drawer with owen graphics
 		basic_window*		root_widget;	///< A pointer refers to the root basic window, if the window is a root, the pointer refers to itself.
-		paint::graphics*	root_graph;		///< Refer to the root buffer graphics
+		///Refer to the root buffer graphics
+		paint::graphics*	root_graph;
 		cursor	predef_cursor;
 		std::unique_ptr<widget_notifier_interface> widget_notifier;
 

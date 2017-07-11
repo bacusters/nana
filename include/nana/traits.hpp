@@ -33,6 +33,9 @@ namespace nana
 
 	namespace meta
 	{
+		/**
+		 * \brief Struct representing a sequence of types
+		 */
 		template<	typename Param0 = null_type, typename Param1 = null_type,
 					typename Param2 = null_type, typename Param3 = null_type,
 					typename Param4 = null_type, typename Param5 = null_type,
@@ -40,6 +43,9 @@ namespace nana
 					typename Param8 = null_type, typename Param9 = null_type>
 		struct fixed_type_set
 		{
+			/**
+			 * \brief Counts the number of times the given type occurs in the parameter list.
+			 */
 			template<typename T>
 			struct count
 			{

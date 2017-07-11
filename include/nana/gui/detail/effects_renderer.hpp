@@ -18,6 +18,10 @@ namespace nana{
 			using window_layer = ::nana::detail::window_layout;
 			using graph_reference = ::nana::paint::graphics&;
 
+			/**
+			 * \brief Singleton construction of the renderer
+			 * \returns Reference to renderer
+			 */
 			static edge_nimbus_renderer& instance()
 			{
 				static edge_nimbus_renderer object;

@@ -506,7 +506,7 @@ namespace detail
 				if (impl_->wd_register.available(owner))
 				{
 					if (owner->flags.destroying)
-						throw std::runtime_error("the specified owner is destory");
+						throw std::runtime_error("the specified owner is destroyed");
 
 #ifndef WIDGET_FRAME_DEPRECATED
 					native = (category::flags::frame == owner->other.category ?

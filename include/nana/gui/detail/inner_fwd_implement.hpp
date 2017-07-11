@@ -24,8 +24,12 @@
 namespace nana{
 	namespace detail
 	{
+		/**
+		 * \brief Container for shortkeys
+		 */
 		class shortkey_container
 		{
+			///Type of the container item
 			struct item_type;
 
 			//Noncopyable
@@ -40,10 +44,20 @@ namespace nana{
 
 			~shortkey_container();
 
+			/**
+			 * \brief Clears the container
+			 */
 			void clear();
 
+			/**
+			 * \brief Creates 
+			 */
 			bool make(window wd, unsigned long key);
 
+			/**
+			 * \brief Removes all shortkey definitions for the specified window
+			 * \param wd The window
+			 */
 			void umake(window wd);
 
 			std::vector<unsigned long> keys(window wd) const;
@@ -54,13 +68,19 @@ namespace nana{
 			implementation * impl_;
 		};
 
-
+		/**
+		 *
+		 */
 		struct root_misc
 		{
+			///Pointer to the window
 			basic_window * window;
+			///The graphics object
 			nana::paint::graphics	root_graph;
+			///Container for shortkeys
 			shortkey_container		shortkeys;
 
+			///
 			struct condition_rep
 			{
 				bool			ignore_tab;			//ignore tab when the focus is changed by TAB key.
@@ -69,12 +89,14 @@ namespace nana{
 				basic_window*	hovered;			//the latest window that mouse moved
 			}condition;
 
-			root_misc(root_misc&&);
+			root_misc(root_misc&& other);
 			root_misc(basic_window * wd, unsigned width, unsigned height);
 		};//end struct root_misc
 
 
-
+		/**
+		 * \brief 
+		 */
 		class root_register
 		{
 			//Noncopyable
@@ -88,11 +110,24 @@ namespace nana{
 			root_register();
 			~root_register();
 
-			root_misc* insert(native_window_type, root_misc&&);
+			/**
+			 * \brief Inserts the window in the register, with the given extra data
+			 * \param window The window to insert
+			 * \param miscPointer Pointer to miscelaneous data pointer
+			 * \returns The pointer to the miscelaneous data, now present associated with the window in the register. 
+			 */
+			root_misc* insert(native_window_type window, root_misc&& miscPointer);
 
+			/**
+			 *
+			 */
 			root_misc * find(native_window_type);
 
-			void erase(native_window_type);
+			/**
+			 * \brief Removes the given window from the register
+			 * \param window The window to remove
+			 */
+			void erase(native_window_type window);
 		private:
 			struct implementation;
 			implementation * const impl_;

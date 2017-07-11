@@ -106,6 +106,9 @@ namespace nana
 			pair_type * addr_;
 		};
 
+		/**
+		 * \brief Container for windows
+		 */
 		class window_register
 		{
 		public:
@@ -120,6 +123,11 @@ namespace nana
 				delete_trash(0);
 			}
 
+			/**
+			 * \brief Inserts a new window handle in this container.
+			 * 
+			 * \param wd The window handle
+			 */
 			void insert(window_handle_type wd)
 			{
 				if (wd)
@@ -132,11 +140,19 @@ namespace nana
 				}
 			}
 
+			/**
+			 * \brief Convenience overload for window_register::remove
+			 * \param wd The window handle to remove
+			 */
 			void operator()(window_handle_type wd)
 			{
 				remove(wd);
 			}
 
+			/**
+			 * \brief Removes the given window handle from the register.
+			 * \param wd The window handle
+			 */
 			void remove(window_handle_type wd)
 			{
 				if (base_.erase(wd))
@@ -153,6 +169,11 @@ namespace nana
 				}
 			}
 
+			/**
+			 * \brief Deletes all thrashed window handles for the given thread ID.
+			 * Removes all thrash if the thread id is zero.
+			 * \param thread_id The thread id.
+			 */
 			void delete_trash(unsigned thread_id)
 			{
 				if (0 == thread_id)
@@ -177,17 +198,31 @@ namespace nana
 				}
 			}
 
+			/**
+			 * \brief Returns the queue of window handles
+			 * The queue contains handles with root category.
+			 * \returns Collection of window handles.
+			 */
 			const std::vector<window_handle_type>& queue() const
 			{
 				return queue_;
 			}
 
-			/// Returns the number of registered windows
+			/**
+			 * \brief Returns the number of registered window handles
+			 * \returns The number of handles
+			 */
 			std::size_t size() const
 			{
 				return base_.size();
 			}
 
+			/**
+			 * \brief Returns whether the given handle is available
+			 * Checks 
+			 * \param wd The window handle
+			 * \returns Whether the given handle is available
+			 */
 			bool available(window_handle_type wd) const
 			{
 				if (nullptr == wd)
