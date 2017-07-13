@@ -28,13 +28,22 @@ namespace detail
 {
 	namespace algorithms
 	{
-		///@brief	Seek a pixel address by using offset bytes
-		///@return	the specified pixel address
+		/**
+		 * \brief Retrieve a pixel in an array by byte offset
+		 * \param p Pixel array
+		 * \param bytes Bytes offset relative to pointer
+		 * \returns Pointer to pixel
+		 */
 		inline pixel_color_t * pixel_at(pixel_color_t * p, std::size_t bytes)
 		{
 			return reinterpret_cast<pixel_color_t*>(reinterpret_cast<char*>(p) + bytes);
 		}
-
+		/**
+		* \brief Retrieve a pixel in an array by byte offset
+		* \param p Pixel array
+		* \param bytes Bytes offset relative to pointer
+		* \returns Constant pointer to pixel
+		*/
 		inline const pixel_color_t * pixel_at(const pixel_color_t * p, std::size_t bytes)
 		{
 			return reinterpret_cast<const pixel_color_t*>(reinterpret_cast<const char*>(p) + bytes);

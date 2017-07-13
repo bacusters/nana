@@ -16,6 +16,9 @@
 
 namespace nana
 {
+	/**
+	 * \brief Enum for event types
+	 */
 	enum class event_code
 	{
 		click,				///< A mouse click event.

@@ -8,8 +8,18 @@ namespace nana
 {
 	namespace paint
 	{
+		/**
+		 * \brief Namespace containing helper function objects
+		 */
 		namespace helper
 		{
+			/**
+			 * \brief Applies the function to each line in the given string.
+			 * \param str Pointer to string start
+			 * \param len Length of the string to process
+			 * \param top Location of line start ?
+			 * \param f The function object to apply.
+			 */
 			template<typename F>
 			void for_each_line(const wchar_t * str, std::size_t len, int top, F & f)
 			{

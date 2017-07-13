@@ -82,7 +82,9 @@ namespace detail
 	};
 
 
-	/// a window data structure descriptor 
+	/**
+	 * \brief A window data structure descriptor
+	 */ 
 	struct basic_window
 		: public events_holder
 	{
@@ -102,8 +104,13 @@ namespace detail
 			bool rendered;
 		};
 
-		/// constructor for the root window
-		basic_window(basic_window* owner, std::unique_ptr<widget_notifier_interface>&&, category::root_tag**);
+		/**
+		 * \brief Constructs a root window
+		 * \param owner Owner window of the root window
+		 * \param notifier The widget notifier to link to this window
+		 * \param tag Tag for a root window
+		 */
+		basic_window(basic_window* owner, std::unique_ptr<widget_notifier_interface>&& notifier, category::root_tag** tag);
 
 		template<typename Category>
 		basic_window(basic_window* parent, std::unique_ptr<widget_notifier_interface>&& wdg_notifier, const rectangle& r, Category**)
@@ -119,8 +126,16 @@ namespace detail
 
 		~basic_window();
 
-		/// bind a native window and baisc_window
-		void bind_native_window(native_window_type, unsigned width, unsigned height, unsigned extra_width, unsigned extra_height, paint::graphics&);
+		/**
+		 * \brief Binds this window to a native window, represented by the given handle. Sets up all relevant data on the window
+		 * \param nativeHandle Handle to the native window
+		 * \param width Width for the window
+		 * \param height Height for the window
+		 * \param extra_width Extra width
+		 * \param extra_height Extra height
+		 * \param graph Reference to graphics object to associate with the window
+		 */
+		void bind_native_window(native_window_type nativeHandle, unsigned width, unsigned height, unsigned extra_width, unsigned extra_height, paint::graphics& graph);
 
 #ifndef WIDGET_FRAME_DEPRECATED
 		void frame_window(native_window_type);
@@ -143,9 +158,17 @@ namespace detail
 		bool displayed() const;
 
 		bool belong_to_lazy() const;
-		const basic_window * child_caret() const; ///< Returns the child which owns the caret
+		/**
+		 * \brief Returns a pointer to the child window that owns the caret
+		 * \returns Pointer to child window
+		 */
+		const basic_window * child_caret() const;
 
-		bool is_draw_through() const;	///< Determines whether it is a draw-through window.
+		/**
+		 * \brief Determines whether it is a draw-through window.
+		 * \returns Whether the window is draw-through
+		 */
+		bool is_draw_through() const;
 
 		/**
 		 * \brief Tries to find the ''oldest'' ancestor which is a lite_widget.
@@ -172,28 +195,46 @@ namespace detail
 #if defined(NANA_LINUX) || defined(NANA_MACOS)
 		point	pos_native;
 #endif
-		point	pos_root;	///< coordinates of the root window
+		///Coordinates of the root window
+		point	pos_root;
+		///Coordinates of the owner
 		point	pos_owner;
+		///Dimensions of the window
 		size	dimension;
+		///Track sizes minimum
 		::nana::size	min_track_size;
+		///Track sizes maximum
 		::nana::size	max_track_size;
 
+		///Whether the window is visible
 		bool	visible;
 
+		///Extra width
 		unsigned extra_width;
+		///Extra height
 		unsigned extra_height;
 
+		///Pointer to parent window
 		basic_window	*parent;
+		///Pointer to owning window
 		basic_window	*owner;
 
+		///Title of the window
 		native_string_type		title;
-		::nana::detail::drawer	drawer;	    ///< Self Drawer with owen graphics
-		basic_window*		root_widget;	///< A pointer refers to the root basic window, if the window is a root, the pointer refers to itself.
+		///Drawer for this window
+		::nana::detail::drawer	drawer;
+		///A pointer to the root basic window. If the window is a root, the pointer refers to itself.
+		basic_window*		root_widget;	
 		///Refer to the root buffer graphics
 		paint::graphics*	root_graph;
+		///Cursor of the window
 		cursor	predef_cursor;
+		///Pointer to widget notifier
 		std::unique_ptr<widget_notifier_interface> widget_notifier;
 
+		/**
+		 * \brief Window flags
+		 */
 		struct flags_type
 		{
 			bool enabled	:1;
@@ -216,24 +257,38 @@ namespace detail
 			mouse_action	action_before;
 		}flags;
 
-
+		/**
+		 * \brief Additional data associated with the window
+		 */
 		struct annex_components
 		{
+			///Pointer to caret object
 			caret* caret_ptr{ nullptr };
 
-			//The following pointers refer to the widget's object.
+			///Pointer to event handlers
 			std::shared_ptr<general_events> events_ptr;
+			///Pointer to color scheme
 			widget_geometrics* scheme{ nullptr };
+			///Pointer to content measurerer
 			::nana::dev::widget_content_measurer_interface* content_measurer{ nullptr };
 		}annex;
 
+		/**
+		 * \brief Edge effect data
+		 */
 		struct
 		{
+			///
 			effects::edge_nimbus	edge_nimbus;
+			///
 			effects::bground_interface * bground;
+			///Fade rate of background
 			double	bground_fade_rate;
 		}effect;
 		
+		/**
+		 * \brief Tag containing related data of the window
+		 */
 		struct other_tag
 		{
 #ifndef WIDGET_FRAME_DEPRECATED
@@ -243,27 +298,45 @@ namespace detail
 				std::vector<native_window_type> attach;
 			};
 #endif
-
+			/**
+			 * \brief Container for root window data
+			 */
 			struct	attr_root_tag
 			{
 #ifndef WIDGET_FRAME_DEPRECATED
 				container	frames;	///< initialization is null, it will be created while creating a frame widget. Refer to WindowManager::create_frame
 #endif
+				///Collection of tabstop elements
 				container	tabstop;
+				///Effects collection
 				std::vector<edge_nimbus_action> effects_edge_nimbus;
+				///Currently focussed window
 				basic_window*	focus{nullptr};
+				///Window representing the menubar
 				basic_window*	menubar{nullptr};
+				///Whether the root is IME (Input Method Editor) enabled
 				bool			ime_enabled{false};
+				///Current cursor
 				cursor			state_cursor{nana::cursor::arrow};
+				///Window associated with state cursor??
 				basic_window*	state_cursor_window{ nullptr };
 
-				std::function<void()> draw_through;	///< A draw through renderer for root widgets.
+				///Renderer for draw through for root widgets
+				std::function<void()> draw_through;
 			};
 
+			///Window category type
 			const category::flags category;
-			basic_window *active_window;	///< if flags.take_active is false, the active_window still keeps the focus,
-											///< if the active_window is null, the parent of this window keeps focus.
-			paint::graphics glass_buffer;	///< if effect.bground is avaiable. Refer to window_layout::make_bground.
+
+			/**
+			 * \brief The active window
+			 * If flags.take_active is false, the active_window still keeps the focus,
+			 * If the active_window is null, the parent of this window keeps focus.
+			 */
+			basic_window *active_window;	
+			///If effect.bground is avaiable. Refer to window_layout::make_bground.
+			paint::graphics glass_buffer;	
+			///Current update state of the window
 			update_state	upd_state;
 
 			union
@@ -278,9 +351,13 @@ namespace detail
 			~other_tag();
 		}other;
 
-		native_window_type	root;		    ///< root Window handle
-		unsigned			thread_id;		///< the identifier of the thread that created the window.
+		///Window handle of the native root
+		native_window_type	root;
+		///The identifier of the thread that created the window.
+		unsigned			thread_id;
+		///Index of the window (within what ??)
 		unsigned			index;
+		///Container for children
 		container			children;
 	};
 

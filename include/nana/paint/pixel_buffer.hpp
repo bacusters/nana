@@ -18,6 +18,9 @@
 
 namespace nana{	namespace paint
 {
+	/**
+	 * \brief Pixel buffer. Maps operation directly to OS specific device
+	 */
 	class pixel_buffer
 	{
 		struct pixel_buffer_storage;
@@ -36,17 +39,46 @@ namespace nana{	namespace paint
 		bool open(drawable_type, const nana::rectangle& want_rectangle);
 		bool open(std::size_t width, std::size_t height);
 
+		/**
+		 * \brief Enables or disables alpha channels
+		 * \param enabled Whether to enable or disable alpha channels
+		 */
 		void alpha_channel(bool enabled);
+
+		/**
+		 * \returns Whether the alpha channels are enabled
+		 */
 		bool alpha_channel() const;
 
+		/**
+		 * \brief Releases the pixel buffer
+		 */
 		void close();
 
+		/**
+		 * \returns Whether the pixel buffer is empty, i.e. no storage is attached
+		 */
 		bool empty() const;
 
+		/**
+		 * \brief Returns something
+		 */
 		operator unspecified_bool_t() const;
 
+		/**
+		 * \brief Returns the number of bytes the pixel buffer incorporates.
+		 * \returns The number of bytes
+		 */
 		std::size_t bytes() const;
+		/**
+		 * \brief Returns the number of bytes per line
+		 * \returns Number of bytes per line
+		 */
 		std::size_t bytes_per_line() const;
+
+		/**
+		 * \brief 
+		 */
 		nana::size size() const;
 
 		pixel_color_t * at(const point& pos) const;

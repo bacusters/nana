@@ -51,6 +51,11 @@ namespace nana{	namespace paint
 		pixel_buffer_storage(const pixel_buffer_storage& other) = delete;
 		pixel_buffer_storage& operator=(const pixel_buffer_storage&) = delete;
 
+		/**
+		 * \brief Allocates a buffer for the pixels
+		 * Requires the pixel_size to be non-empty.
+		 * \returns Whether the buffer was allocated
+		 */
 		bool _m_alloc()
 		{
 			if (pixel_size.empty())

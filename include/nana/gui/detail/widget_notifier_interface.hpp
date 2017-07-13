@@ -17,10 +17,15 @@
 
 namespace nana
 {
-	class widget;	//forward declaration
+	//Forward declaration
+	class widget;	
 
 	namespace detail
 	{
+		/**
+		 * \interface widget_notifier_interface
+		 * \brief Interface for sending notifications to a widget
+		 */
 		class widget_notifier_interface
 		{
 		public:
@@ -28,7 +33,14 @@ namespace nana
 
 			static std::unique_ptr<widget_notifier_interface> get_notifier(widget*);	//defined in nana/gui/widgets/widget.cpp
 
+			/**
+			 * \brief Returns a pointer to the associated widget
+			 * \returns Widget pointer
+			 */
 			virtual widget* widget_ptr() const = 0;
+			/**
+			 * \brief Destroys the notifier
+			 */
 			virtual void destroy() = 0;
 			virtual ::nana::detail::native_string_type caption() = 0;
 			virtual void caption(::nana::detail::native_string_type) = 0;

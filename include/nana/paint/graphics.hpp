@@ -25,8 +25,12 @@ namespace nana
 {
 	namespace paint
 	{
+		/**
+		 * \brief Class representing a font
+		 */
 		class font
 		{
+			//Designate nana::graphics as friend
 			friend class graphics;
 		public:
 			using path_type = ::std::experimental::filesystem::path;
@@ -41,19 +45,62 @@ namespace nana
 			font(double size_pt, const path_type& truetype, const font_style& ft = {});
 
 			~font();
+
+			/**
+			 * \brief Returns whether the class has a loaded font
+			 * \returns Whether the class has a loaded font or not
+			 */
 			bool empty() const;
 
+			/**
+			 * \brief Sets this font as the default
+			 */
 			void set_default() const;
+
+			/**
+			 * \brief Returns the name of the currently loaded font
+			 * \returns Name of the loaded font
+			 */
 			::std::string name() const;
+
+			/**
+			 * \returns The size of the font
+			 */
 			double size() const;
+			/**
+			 * \returns Whether the font is bold
+			 */
 			bool bold() const;
+
+			/**
+			 * \returns The weight of the font
+			 */
 			unsigned weight() const;
+			/**
+			 * \returns Whether the font is italic or not
+			 */
 			bool italic() const;
+			/**
+			 * \returns A handle to the native representation of the font
+			 */
 			native_font_type handle() const;
+
+			/**
+			 * \brief Unloads the loaded font
+			 */
 			void release();
+			/**
+			 * \returns Whether the font is strikeout
+			 */
 			bool strikeout() const;
+			/**
+			 * \returns Whether the font is underline or not
+			 */
 			bool underline() const;
 
+			/**
+			 *
+			 */
 			font& operator=(const font&);
 			bool operator==(const font&) const;
 			bool operator!=(const font&) const;
@@ -161,7 +208,11 @@ namespace nana
 			void paste(native_window_type dst, int dx, int dy, unsigned width, unsigned height, int sx, int sy) const;
 			void paste(drawable_type dst, int x, int y) const;
 			void paste(const ::nana::rectangle& r_src, graphics& dst, int x, int y) const;
-			void rgb_to_wb();   ///< Transform a color graphics into black&white.
+
+			/**
+			 * \brief Transforms an RGB graphics object to grayscale
+			 */
+			void rgb_to_wb();
 
 			void stretch(const ::nana::rectangle& src_r, graphics& dst, const ::nana::rectangle& r) const;
 			void stretch(graphics& dst, const ::nana::rectangle&) const;
@@ -210,7 +261,14 @@ namespace nana
 			void frame_rectangle(const ::nana::rectangle&, const color& left, const color& top, const color& right, const color& bottom);
 			void frame_rectangle(const ::nana::rectangle&, const color&, unsigned gap);
 
-			void gradual_rectangle(const ::nana::rectangle&, const color& from, const color& to, bool vertical);
+			/**
+			 * \brief Draws a gradient in the specified rectangle
+			 * \param rect The target rectangle
+			 * \param from The starting color
+			 * \param to The end color
+			 * \param vertical Whether the gradient should be horizontal or vertical
+			 */
+			void gradual_rectangle(const ::nana::rectangle& rect, const color& from, const color& to, bool vertical);
 			void round_rectangle(const ::nana::rectangle&, unsigned radius_x, unsigned radius_y, const color&, bool solid, const color& color_if_solid);
 		private:
 			struct implementation;

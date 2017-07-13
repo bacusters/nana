@@ -21,21 +21,26 @@
 
 namespace nana
 {
+	//Forward declare
 	class animation;
-        /// Holds the frames and frame builders. Have reference semantics for efficiency.
+    /**
+     * \brief Holds the frames and frame builders. Have reference semantics for efficiency.
+     */
 	class frameset
 	{
 		friend class animation;
 	public:
-        /// function which builds frames.
+        /// Function for building frames
 		using framebuilder = std::function<bool(std::size_t pos, paint::graphics&, nana::size&)>;
 
+		//Forward declare implementation
 		struct impl;
 	public:
 		frameset();
 		void push_back(paint::image);        ///< Inserts frames at the end.
 		void push_back(framebuilder fb, std::size_t length);  ///< Insters a framebuilder and the number of frames that it generates.
 	private:
+		//Pointer to implementation
 		std::shared_ptr<impl> impl_;
 	};
             /// Easy way to display an animation or create an animated GUI 

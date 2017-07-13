@@ -11,6 +11,9 @@
 
 namespace nana
 {
+	/**
+	 * \brief Abstract platform independent representation of font
+	 */
 	class font_interface
 	{
 	public:
@@ -19,8 +22,20 @@ namespace nana
 
 		virtual ~font_interface() = default;
 
+		/**
+		 * \brief Returns the font family name
+		 * \returns The font family name
+		 */
 		virtual const std::string& family() const = 0;
+		/**
+		 * \brief Returns the font size
+		 * \returns The font size
+		 */
 		virtual double size() const = 0;
+		/**
+		 * \brief Returns the font style
+		 * \returns The font style
+		 */
 		virtual const font_style & style() const = 0;
 		virtual native_font_type native_handle() const = 0;
 	};

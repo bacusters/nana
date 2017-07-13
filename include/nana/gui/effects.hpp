@@ -18,11 +18,18 @@ namespace nana
 {
 	namespace effects
 	{
+		/**
+		 * \enum edge_nimbus
+		 * \brief Enum for nimbus types
+		 */
 		enum class edge_nimbus
 		{
 			none, active = 0x1, over = 0x2
 		};
 
+		/**
+		 * \brief Interface for background rendering
+		 */
 		class bground_interface
 		{
 		public:
@@ -32,34 +39,65 @@ namespace nana
 			virtual void take_effect(window, graph_reference) const = 0;
 		};
 
+		/**
+		 * \brief Factory for background
+		 */
 		class bground_factory_interface
 		{
+			//Define friend
 			friend class effects_accessor;
 		public:
 			virtual ~bground_factory_interface() = 0;
 		private:
+			/**
+			 * \brief Creates a new background interface strategy
+			 * 
+			 */
 			virtual bground_interface * create() const = 0;
 		};
 
+		/**
+		 * \brief Implementation for creating transparent background rendering object.
+		 */
 		class bground_transparent
 			: public bground_factory_interface
 		{
 		public:
+			/**
+			 * \brief Constructor. Sets the percentage of transparency
+			 * \param percent Transparency percentage
+			 */
 			bground_transparent(std::size_t percent);
 		private:
+			/**
+			 * \brief Creates the background rendering object
+			 * \returns Pointer to renderer.
+			 */
 			bground_interface* create() const override;
 		private:
 			std::size_t percent_;
 		};
 
+		/**
+		 * \brief Factory for the blur background effect.
+		 */
 		class bground_blur
 			: public bground_factory_interface
 		{
 		public:
+			/**
+			* \brief Constructor. Sets the radius of the blur
+			* \param radius Blur radius
+			*/
 			bground_blur(std::size_t radius);
 		private:
+			/**
+			* \brief Creates the background rendering object
+			* \returns Pointer to renderer.
+			*/
 			bground_interface * create() const override;
 		private:
+			///The blur radius
 			std::size_t radius_;
 		};
 	}

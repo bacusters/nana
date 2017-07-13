@@ -17,6 +17,9 @@
 #include <memory>
 namespace nana
 {
+	/**
+	 * \brief Wrapper class for colors
+	 */
 	class color_proxy
 	{
 	public:
@@ -30,15 +33,21 @@ namespace nana
 		color get_color() const;
 		operator color() const;
 	private:
+		///Pointer to color
 		std::shared_ptr<color> color_;
 	};//end namespace color_proxy
 
+	/**
+	 * \brief Struct representing colors of a widget
+	 */
 	struct widget_geometrics
 	{
 		virtual ~widget_geometrics() = default;
-
+		///The activated state color
 		color_proxy activated{ static_cast<color_rgb>(0x60C8FD) };
+		///The background color
 		color_proxy background{colors::button_face};
+		///The foreground color
 		color_proxy foreground{colors::black};
 	};
 }

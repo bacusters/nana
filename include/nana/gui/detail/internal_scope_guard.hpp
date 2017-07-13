@@ -17,9 +17,11 @@ namespace nana
 	//Implemented in bedrock
 	class internal_scope_guard
 	{
+		//Delete copy/move constructors
 		internal_scope_guard(const internal_scope_guard&) = delete;
 		internal_scope_guard(internal_scope_guard&&) = delete;
 
+		//Delete move assignments
 		internal_scope_guard& operator=(const internal_scope_guard&) = delete;
 		internal_scope_guard& operator=(internal_scope_guard&&) = delete;
 	public:

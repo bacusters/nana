@@ -126,6 +126,7 @@ namespace nana
 
 			std::vector<native_window_type> roots;
 			native_window_type root = nullptr;
+			//Retrieve all ''unique'' root windows, associated with the thread
 			for (auto wd : v)
 			{
 				if (((0 == thread_id) || (wd->thread_id == thread_id)) && (wd->root != root))
@@ -325,6 +326,7 @@ namespace nana
 		{
 			if(menu_wd && pi_data_->menu.window != menu_wd)
 			{
+				//Cleanup previous menu window
 				erase_menu(true);
 
 				pi_data_->menu.window = menu_wd;

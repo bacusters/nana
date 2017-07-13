@@ -27,17 +27,33 @@ namespace nana
 {
 	namespace detail
 	{
+		/**
+		 * \brief Struct with helper function for inserting the forms in the Nana system.
+		 */
 		struct form_loader_private
 		{
+			//Declare form_loader as friend
 			template<typename, bool> friend class form_loader;
 		private:
-			static void insert_form(::nana::widget*);
+			/**
+			 * \brief Inserts a form in the Nana system
+			 * \param widget The widget
+			 */
+			static void insert_form(::nana::widget* widget);
 		};
 
+		/**
+		 * \brief Templated implementation for loading a form
+		 */
 		template<typename Form, bool IsVisible>
 		class form_loader
 		{
         public:
+			/**
+			 * \brief Initializes the form type with the given arguments
+			 * IsVisible template bool is used to automatically show the created form or not.
+			 * \param args The argumentss
+			 */
             template<typename... Args>
             Form & operator()(Args &&... args) const
             {
@@ -80,6 +96,9 @@ namespace nana
 	/// in seconds
 	void Wait(unsigned wait = 0);
 #else
+	/**
+	 * \brief Starts the nana system.
+	 */
 	void exec();
 #endif
 

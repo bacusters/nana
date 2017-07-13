@@ -45,11 +45,22 @@ namespace nana
 			};
 		}
 
+		/**
+		 * \brief Implementation of the element_abstract class
+		 */
 		class element_interface
 			: public detail::element_abstract
 		{
 		public:
-			virtual bool draw(graph_reference, const nana::color& bgcolor, const nana::color& fgcolor, const nana::rectangle&, element_state) = 0;
+			/**
+			 * \brief Draws an element.
+			 * \param graph Reference to the associated graphics object
+			 * \param bgcolor Background color
+			 * \param fgcolor Foreground color
+			 * \param rect Target rectangle
+			 * \param state State of the element
+			 */
+			virtual bool draw(graph_reference graph, const nana::color& bgcolor, const nana::color& fgcolor, const nana::rectangle& rect, element_state state) = 0;
 		};
 
 		class crook_interface
@@ -81,6 +92,9 @@ namespace nana
 			virtual bool draw(graph_reference, const ::nana::color& bgcolor, const ::nana::color& fgcolor, const ::nana::rectangle&, element_state, direction) = 0;
 		};
 
+		/**
+		 * \brief Class that provides elements
+		 */
 		class provider
 		{
 		public:
@@ -319,11 +333,26 @@ namespace nana
 			~bground();
 			bground& operator=(const bground&);
 
-			bground& image(const paint::image&, bool vertical, const nana::rectangle& valid_area);		///< Set a picture for the background
-			bground& image(const paint::graphics&, bool vertical, const nana::rectangle& valid_area);	///< Set a picture for the background
+			/**
+			 * \brief Set a picture for the background
+			 * \param img The picture of the background
+			 * \param vertical
+			 * \param valid_area
+			 */
+			bground& image(const paint::image& img, bool vertical, const nana::rectangle& valid_area);		///< 
+			bground& image(const paint::graphics& graph, bool vertical, const nana::rectangle& valid_area);	///< Set a picture for the background
 
-			void states(const std::vector<element_state> &);	///< Set the state sequence of the background picture.
-			void states(std::vector<element_state> &&);			///< Set the state sequence of the background picture.
+			/** 
+			 * \brief Set the state sequence of the background picture.
+			 * \param states The state sequence
+			 */
+			void states(const std::vector<element_state> & states);
+
+			/**
+			* \brief Set the state sequence of the background picture.
+			* \param states The state sequence
+			*/
+			void states(std::vector<element_state> &&);
 			void reset_states();
 
 			void join(element_state target, element_state joiner);

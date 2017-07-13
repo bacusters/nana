@@ -20,6 +20,7 @@
 
 namespace nana
 {
+	//Forward declarations
 	class widget;
 
 	namespace detail
@@ -27,8 +28,13 @@ namespace nana
 		class drawer;
 	}
 
+	/**
+	 * \brief Base class for drawing triggers. 
+	 * The virtual functions can be reimplemented to respond to drawing triggers.
+	 */
 	class drawer_trigger
 	{
+		//Designate nana::drawer as friend
 		friend class detail::drawer;
 
 		//Noncopyable
@@ -79,12 +85,13 @@ namespace nana
 
 	namespace detail
 	{
+		//Forward declare basic_window struct
 		struct basic_window;
 
 		/**
 		 * \brief Class for drawing a window
-		 * Contains a reference to a drawer trigger for actually drawing.
-		 * Is associated with a widget
+		 * Contains a reference to a drawer trigger that handles actual drawing for the given events
+		 * Is associated with a widget.
 		 */
 		class drawer
 			: nana::noncopyable, nana::nonmovable
@@ -99,6 +106,9 @@ namespace nana
 				not_overrided
 			};
 		public:
+			/**
+			 * \brief Initializes the drawer with the underlying implementation.
+			 */
 			drawer();
 			~drawer();
 
@@ -108,6 +118,9 @@ namespace nana
 			 */
 			void bind(basic_window* window);
 
+			/**
+			 * \brief Relays the typeface_changed event to the associated drawer_trigger, if present
+			 */
 			void typeface_changed();
 			void click(const arg_click&);
 			void dbl_click(const arg_mouse&);
@@ -128,17 +141,47 @@ namespace nana
 			void shortkey(const arg_keyboard&);
 			void map(window, bool forced, const rectangle* update_area = nullptr);	//Copy the root buffer to screen
 			void refresh();
+			/**
+			 * \brief Returns a pointer to the associated realizer
+			 * \returns The drawer_trigger realizer
+			 */
 			drawer_trigger* realizer() const;
-			void attached(widget&, drawer_trigger&);
+			/**
+			 * \brief Triggers the attached event
+			 * Calls drawer_trigger::attached() and drawer_trigger::typeface_changed()
+			 * \param widget The attached widget
+			 * \param trigger The drawer trigger 
+			 */
+			void attached(widget& widget, drawer_trigger& trigger);
+
+			/**
+			 * \brief Calls the detached event on the drawer_trigger. Returns the old drawer_trigger.
+			 * Returns a nullptr when the realizer drawer_trigger was not set.
+			 * \returns The old drawer_trigger
+			 */
 			drawer_trigger* detached();
 		public:
+			/**
+			 * \brief Clears all draw functions, except for those designated 'diehard'.
+			 */
 			void clear();
 			void* draw(std::function<void(paint::graphics&)> &&, bool diehard);
 			void erase(void* diehard);
 		private:
 			void _m_effect_bground_subsequent();
+			/**
+			 * \brief Returns the method state for the given event position (number, corresponds to an nana::event_code enum value). Can be overridden (1) or not-overridden(0)
+			 * \returns The method state.
+			 */
 			method_state& _m_mth_state(int pos);
 
+			/**
+			 * \brief Relays the specified event to the drawer_trigger.
+			 * The realizer is checked for existence.
+			 * \param evt_code The code of the event to relay
+			 * \param arg The associated arguments for the event
+			 * \param mfptr Pointer to member function to invoke on the drawer_trigger (i.e. the event handler).
+			 */
 			template<typename Arg, typename Mfptr>
 			void _m_emit(event_code evt_code, const Arg& arg, Mfptr mfptr)
 			{
@@ -167,8 +210,10 @@ namespace nana
 		public:
 			nana::paint::graphics graphics;
 		private:
+			//Forward declare data_implement struct
 			struct data_implement;
 
+			///The data implement 
 			data_implement * const data_impl_;
 		};
 	}//end namespace detail

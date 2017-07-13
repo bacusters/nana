@@ -17,7 +17,12 @@
 
 namespace nana
 {
-	//overlap test if overlaped between r1 and r2
+	/**
+	 * \brief Tests if two rectangles overlap
+	 * \param r1 The first rectangle
+	 * \param r2 the second rectangle
+	 * \returns Whether the rectangles overlap
+	 */
 	bool overlapped(const rectangle& r1, const rectangle& r2);
 
 	// overlap, compute the overlap area between r1 and r2. the r is for root

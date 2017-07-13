@@ -21,6 +21,7 @@ namespace nana
 {
 	namespace paint
 	{
+		//Forward declare
 		class graphics;
 	}
 }

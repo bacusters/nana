@@ -31,7 +31,9 @@ namespace detail
 {
 	struct basic_window;
 
-	//class window_layout
+	/**
+	 * \brief Class containing helper function for layouting
+	 */
 	class window_layout
 	{
 	public:

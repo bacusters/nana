@@ -21,6 +21,7 @@ namespace nana
 {
 namespace detail
 {
+	//Forward declarations
 	class	element_store;
 
 	class	events_operation;
@@ -28,7 +29,9 @@ namespace detail
 	class	window_manager;
 
 	
-	/// @brief	fundamental core component, it provides an abstraction to the OS platform and some basic functions.
+	/**
+	 * \brief Fundamental core component, it provides an abstraction to the OS platform and some basic functions.
+	 */
 	class bedrock
 	{
 		bedrock();
@@ -43,12 +46,21 @@ namespace detail
 		class flag_guard;
 
 		~bedrock();
-		void pump_event(window, bool is_modal);
-		void flush_surface(core_window_t*, bool forced, const rectangle* update_area = nullptr);
+		void pump_event(window window, bool is_modal);
+		void flush_surface(core_window_t* window, bool forced, const rectangle* update_area = nullptr);
 		static int inc_window(unsigned tid = 0);
 		thread_context* open_thread_context(unsigned tid = 0);
 		thread_context* get_thread_context(unsigned tid = 0);
+
+		/**
+		 * \brief Removes the context for the given thread
+		 */
 		void remove_thread_context(unsigned tid = 0);
+
+		/**
+		 * \brief Retrieves the singleton instance
+		 * \returns The bedrock instance
+		 */
 		static bedrock& instance();
 
 		core_window_t* focus();
@@ -63,9 +75,22 @@ namespace detail
 		native_window_type get_menu();
 		void erase_menu(bool try_destroy);
 
-		void get_key_state(arg_keyboard&);
+		/**
+		 * \brief Sets special keys Control and Shift on the keyboard arguments
+		 * \param args The arguments
+		 */
+		void get_key_state(arg_keyboard& args);
 
+		/**
+		 * \brief Returns whether a shortkey occurred, and sets the new occurance status
+		 * \param status The new status
+		 * \returns Whether a shortkey occurred.
+		 */
 		bool shortkey_occurred(bool status);
+		/**
+		 * \brief Returns whether a shortkey occurred
+		 * \returns Whether a shortkey occurred
+		 */
 		bool shortkey_occurred() const;
 
 		element_store& get_element_store() const;
@@ -89,7 +114,12 @@ namespace detail
 		events_operation&	evt_operation();
 		window_manager&		wd_manager();
 
-		void manage_form_loader(core_window_t*, bool insert_or_remove);
+		/**
+		 * \brief Handles a form load action for the given window
+		 * \param window The window
+		 * \param insert_or_remove Whether to insert (true) or remove (false) the window.
+		 */
+		void manage_form_loader(core_window_t* window, bool insert_or_remove);
 	public:
 		bool emit(event_code, core_window_t*, const event_arg&, bool ask_update, thread_context*);
 	private:

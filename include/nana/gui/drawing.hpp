@@ -17,9 +17,13 @@
 #include "../traits.hpp"
 namespace nana
 {
-	/// \brief Draw pictures on a widget by specifying a drawing method that will be employed everytime the widget refreshes. 
-    /// By the end of drawing, the picture may not be displayed immediately. 
-    /// If a picture need to be displayed immediately call nana::gui::API::refresh_window() .
+	/**
+	 * \brief
+	 * 
+	 * Draw pictures on a widget by specifying a drawing method that will be employed everytime the widget refreshes. 
+     * By the end of drawing, the picture may not be displayed immediately. 
+	 * If a picture need to be displayed immediately call nana::gui::API::refresh_window() .
+	 */
 	class drawing
 		:private nana::noncopyable
 	{
@@ -27,11 +31,23 @@ namespace nana
 		typedef struct{}* diehard_t;                                ///< A handle to a drawing method
 		typedef std::function<void(paint::graphics&)> draw_fn_t;    ///< A function to draw
 
-		drawing(window w);              ///< Create a drawing object for a widget w
+		/**
+		 * \brief Creates a drawing object for the specified widget
+		 * \param w The widget, given as a awindow
+		 */
+		drawing(window w);              
 		
 		virtual ~drawing();             ///< Just for polymorphism
 
-		bool empty() const;             ///< Returns true if the drawing object is invalid. 
+		/**
+		 * \brief Returns whether the drawing is empty
+		 * \returns Whether the drawing is invalid or empty.
+		 */
+		bool empty() const;
+
+		/**
+		 * \brief Refreshes the display to draw the drawing
+		 */
 		void update() const;
 
         void draw(const draw_fn_t&);         ///< Draws things that are defined by draw_fn_t.

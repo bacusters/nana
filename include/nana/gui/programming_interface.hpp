@@ -164,8 +164,21 @@ namespace API
 
 	namespace detail
 	{
-		general_events* get_general_events(window);
-		bool emit_event(event_code, window, const ::nana::event_arg&);
+		/**
+		 * \brief Returns the base pointer of the events for the specified window.
+		 * Returns nullptr when the window is not available.
+		 * \param window The window
+		 * \returns Pointer to the general_events baseclass, associated with the window
+		 */
+		general_events* get_general_events(window window);
+
+		/**
+		 * \brief Emits the event with the given code on the given window with the given arguments
+		 * \param code The event code
+		 * \param window The target window
+		 * \param args The supplied event arguments
+		 */
+		bool emit_event(event_code code, window window, const ::nana::event_arg& args);
 
 		/**
 		 * Base class for a widgets function class
@@ -308,11 +321,19 @@ namespace API
 	}
 	
 	/**
-	 * \brief 
+	 * \brief Sets the default window icons
+	 * \param small_icon The small icon
+	 * \param big_icon The big icon. Defaults to an empty image
 	 */
 	void window_icon_default(const paint::image& small_icon, const paint::image& big_icon = {});
 
-	void window_icon(window, const paint::image& small_icon, const paint::image& big_icon = {});
+	/**
+	 * \brief Sets the window icons for the specified window
+	 * \param window The target window
+	 * \param small_icon The small icon
+	 * \param big_icon The large icon. Defaults to an empty image.
+	 */
+	void window_icon(window window, const paint::image& small_icon, const paint::image& big_icon = {});
 
 	/**
 	* \brief Checks whether the specified window exists
@@ -327,7 +348,13 @@ namespace API
 	 * \returns Whether the window exists and is not empty
 	 */
 	bool is_window(window window);
-	bool is_destroying(window);		///< Determines whether a window is destroying
+
+	/**
+	 * \brief Returns whether the specified window is currently being destroyed.
+	 * \param window The window
+	 * \returns Whether the window is being destroyed
+	 */
+	bool is_destroying(window window);
 
 	/**
 	 * \brief Enables or disablse drag/drop operations on the specified window
@@ -344,7 +371,7 @@ namespace API
 	bool is_transparent_background(window window);
 
 	/**
-	 * \ brief Retrieves the native window representation of the root of a Nana.GUI window.
+	 * \brief Retrieves the native window representation of the root of a Nana.GUI window.
 	 * The native window type is platform-dependent. Under Microsoft Windows, a conversion can be employed between
 	 * nana::native_window_type and HWND through reinterpret_cast operator. Under X System, a conversion can
      * be employed between nana::native_window_type and Window through reinterpret_cast operator.
@@ -380,6 +407,11 @@ namespace API
 	window	get_owner_window(window);
 	bool	set_parent_window(window, window new_parent);
 
+	/**
+	 * \brief Returns the events for the given window, while returning the events associated with the specified Widget class.
+	 * \param wd The window in question
+	 * \returns The event object, which depends on the traits of the specified Widget class.
+	 */
 	template<typename Widget=::nana::widget>
 	typename ::nana::dev::widget_traits<Widget>::event_type & events(window wd)
 	{

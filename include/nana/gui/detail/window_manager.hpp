@@ -84,8 +84,19 @@ namespace detail
 
 		void event_filter(core_window_t*, bool is_make, event_code);
 
-		bool available(core_window_t*);
-		bool available(core_window_t *, core_window_t*);
+		/**
+		 * \brief Determines whether the specified window is available
+		 * \param window The window
+		 * \returns Whether the window is available
+		 */
+		bool available(core_window_t* window);
+		/**
+		 * \brief Determines whether both windows are available
+		 * \param window1 First window
+		 * \param window2 Second window
+		 * \returns Whether both windows are available
+		 */
+		bool available(core_window_t * window1, core_window_t* window2);
 
 		core_window_t* create_root(core_window_t*, bool nested, rectangle, const appearance&, widget*);
 		core_window_t* create_widget(core_window_t*, const rectangle&, bool is_lite, widget*);
@@ -155,7 +166,7 @@ namespace detail
 		core_window_t* tabstop(core_window_t*, bool forward) const;	//forward means move to next in logic.
 
 		/**
-		 * \brief Deletes all handles, designated as thrash, for the specified thread id.
+		 * \brief Deletes all handles designated as thrash, for the specified thread id.
 		 * \param tid The thread ID. If set to zero, all thrash will be deleted.
 		 */
 		void remove_trash_handle(unsigned tid);

@@ -30,6 +30,7 @@ namespace nana
 	class widget
 	{
 		friend class detail::widget_notifier_interface;
+		///Implementation of widget notifier
 		class inner_widget_notifier;
 		typedef void(*dummy_bool_type)(widget* (*)(const widget&));
 

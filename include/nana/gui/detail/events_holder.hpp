@@ -10,7 +10,8 @@ namespace nana
 	namespace detail
 	{
 		/**
-		 * \brief Abstract class that holds events
+		 * \interface events_holder
+		 * \brief Interface for an object holding events
 		 */
 		class events_holder
 		{

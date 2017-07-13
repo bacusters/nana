@@ -27,6 +27,9 @@ namespace nana
 	{
 	};
 
+	/**
+	 * \brief Class for holding arbitrary typed data
+	 */
 	class any
 	{
 		/**
@@ -56,10 +59,12 @@ namespace nana
 			//Delete copy operator
 			holder& operator=(const holder&) = delete;
 		public:
+			//Copy constructor
 			holder(const Value& other)
 				: value(other)
 			{}
 
+			//
 			holder(Value&& other)
 				: value(static_cast<Value&&>(other))
 			{}
@@ -69,6 +74,10 @@ namespace nana
 				return typeid(Value);
 			}
 
+			/**
+			 * \brief Clones this holder
+			 * \returns Pointer to base class
+			 */
 			content_interface* clone() const override
 			{
 				return new holder(value);

@@ -172,6 +172,7 @@ namespace detail
 		color_schemes	schemes;
 		element_store	estore;
 
+		//Simple cache for single thread
 		struct cache_type
 		{
 			struct thread_context_cache
@@ -192,13 +193,13 @@ namespace detail
 		:	pi_data_(new pi_data),
 			impl_(new private_impl)
 	{
-		nana::detail::platform_spec::instance(); //to guaranty the platform_spec object is initialized before using.
+		nana::detail::platform_spec::instance(); //to guarantee that the platform_spec object is initialized before using.
 
-
+		//Native Win32 class registration
 		WNDCLASSEX wincl;
 		wincl.hInstance = ::GetModuleHandle(0);
 		wincl.lpszClassName = L"NanaWindowInternal";
-		wincl.lpfnWndProc = &Bedrock_WIN32_WindowProc;
+		wincl.lpfnWndProc = &Bedrock_WIN32_WindowProc; //Window processing callback
 		wincl.style = CS_DBLCLKS | CS_OWNDC;
 		wincl.cbSize = sizeof(wincl);
 		wincl.hIcon = ::LoadIcon (0, IDI_APPLICATION);
@@ -232,6 +233,7 @@ namespace detail
 
 	bedrock::~bedrock()
 	{
+		//If the number of core windows is non-zero, some memory was leaked.
 		if(wd_manager().number_of_core_window())
 		{
 			std::string msg = "Nana.GUI detects a memory leaks in window_manager, " + std::to_string(wd_manager().number_of_core_window()) + " window(s) are not uninstalled.";
@@ -311,17 +313,17 @@ namespace detail
 
 	void bedrock::flush_surface(core_window_t* wd, bool forced, const rectangle* update_area)
 	{
+		//If we are not on the thread of the window, post a message to the root window.
 		if (nana::system::this_thread_id() != wd->thread_id)
 		{
 			auto stru = reinterpret_cast<detail::messages::map_thread*>(::HeapAlloc(::GetProcessHeap(), 0, sizeof(detail::messages::map_thread)));
 			if (stru)
 			{
 				stru->forced = forced;
-				stru->ignore_update_area = true;
+				stru->ignore_update_area = !update_area;
 
 				if (update_area)
 				{
-					stru->ignore_update_area = false;
 					stru->update_area = *update_area;
 				}
 
@@ -329,10 +331,14 @@ namespace detail
 					::HeapFree(::GetProcessHeap(), 0, stru);
 			}
 		}
+		//Otherwise, ask the drawer to map.
 		else
 			wd->drawer.map(reinterpret_cast<window>(wd), forced, update_area);
 	}
 
+	/**
+	 * \brief Sets the appropriate native window handle on the message, pointing to the given menu window.
+	 */
 	void interior_helper_for_menu(MSG& msg, native_window_type menu_window)
 	{
 		switch(msg.message)
@@ -341,7 +347,39 @@ namespace detail
 		case WM_CHAR:
 		case WM_KEYUP:
 			msg.hwnd = reinterpret_cast<HWND>(menu_window);
+		default:
 			break;
+		}
+	}
+
+	/**
+	 * \brief Handles messages for a modal window
+	 */
+	void handleModalWindowMessages(HWND native_handle, MSG& msg, const unsigned& tid, bedrock& br)
+	{
+		HWND owner = ::GetWindow(native_handle, GW_OWNER);
+		if (owner && owner != ::GetDesktopWindow())
+			::EnableWindow(owner, false);
+
+
+		while (::IsWindow(native_handle))
+		{
+			::WaitMessage();
+			while (::PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
+			{
+				if (msg.message == WM_QUIT)   break;
+				if ((WM_KEYFIRST <= msg.message && msg.message <= WM_KEYLAST) || !::IsDialogMessage(native_handle, &msg))
+				{
+					auto menu_wd = br.get_menu(reinterpret_cast<native_window_type>(msg.hwnd), true);
+					if (menu_wd) interior_helper_for_menu(msg, menu_wd);
+
+					::TranslateMessage(&msg);
+					::DispatchMessage(&msg);
+
+					//Remove thrashed handles on the given thread
+					br.wd_manager().remove_trash_handle(tid);
+				}
+			}
 		}
 	}
 
@@ -370,32 +408,12 @@ namespace detail
 				HWND native_handle = reinterpret_cast<HWND>(reinterpret_cast<core_window_t*>(condition_wd)->root);
 				if (is_modal)
 				{
-					HWND owner = ::GetWindow(native_handle, GW_OWNER);
-					if (owner && owner != ::GetDesktopWindow())
-						::EnableWindow(owner, false);
-
-
-					while (::IsWindow(native_handle))
-					{
-						::WaitMessage();
-						while (::PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
-						{
-							if (msg.message == WM_QUIT)   break;
-							if ((WM_KEYFIRST <= msg.message && msg.message <= WM_KEYLAST) || !::IsDialogMessage(native_handle, &msg))
-							{
-								auto menu_wd = get_menu(reinterpret_cast<native_window_type>(msg.hwnd), true);
-								if (menu_wd) interior_helper_for_menu(msg, menu_wd);
-
-								::TranslateMessage(&msg);
-								::DispatchMessage(&msg);
-
-								wd_manager().remove_trash_handle(tid);
-							}
-						}
-					}
+					//Handle messages for modal window
+					handleModalWindowMessages(native_handle, msg, tid, *this);
 				}
 				else
 				{
+					//Loop while the handle is an existing window
 					while (::IsWindow(native_handle))
 					{
 						if (-1 != ::GetMessage(&msg, 0, 0, 0))
@@ -409,6 +427,8 @@ namespace detail
 
 						wd_manager().call_safe_place(tid);
 						wd_manager().remove_trash_handle(tid);
+
+						//Break when an exit message for this window is sent
 						if (msg.message == WM_DESTROY  && msg.hwnd == native_handle)
 							break;
 					}//end while
@@ -451,6 +471,7 @@ namespace detail
 				if ((nullptr == condition_wd) || (0 == context->window_count))
 					remove_thread_context();
 			}
+			//Rethrow
 			throw;
         }
 		catch(...)
@@ -479,68 +500,52 @@ namespace detail
 		}
 	}//end pump_event
 
+	::nana::mouse buttons[] = {
+		::nana::mouse::left_button,
+		::nana::mouse::right_button,
+		::nana::mouse::middle_button
+	};
+	event_code codes[] = {
+		event_code::mouse_down,
+		event_code::mouse_up,
+		event_code::dbl_click
+	};
+	const unsigned int mouseEventStart = 0x200;
+
+	//Assigns event arguments
 	void assign_arg(nana::arg_mouse& arg, basic_window* wd, unsigned msg, const parameter_decoder& pmdec)
 	{
 		arg.window_handle = reinterpret_cast<window>(wd);
 
 		bool set_key_state = true;
-		switch (msg)
+
+		//Message is not mouse related: return.
+		if (msg < mouseEventStart || msg - mouseEventStart > 9) return;
+
+		const unsigned diff = msg - mouseEventStart;
+
+		//The move action
+		if(diff == 0)
 		{
-		case WM_LBUTTONDOWN:
-			arg.button = ::nana::mouse::left_button;
-			arg.evt_code = event_code::mouse_down;
-			break;
-		case WM_RBUTTONDOWN:
-			arg.button = ::nana::mouse::right_button;
-			arg.evt_code = event_code::mouse_down;
-			break;
-		case WM_MBUTTONDOWN:
-			arg.button = ::nana::mouse::middle_button;
-			arg.evt_code = event_code::mouse_down;
-			break;
-		case WM_LBUTTONUP:
-			arg.button = ::nana::mouse::left_button;
-			arg.evt_code = event_code::mouse_up;
-			break;
-		case WM_RBUTTONUP:
-			arg.button = ::nana::mouse::right_button;
-			arg.evt_code = event_code::mouse_up;
-			break;
-		case WM_MBUTTONUP:
-			arg.button = ::nana::mouse::middle_button;
-			arg.evt_code = event_code::mouse_up;
-			break;
-		case WM_LBUTTONDBLCLK:
-			arg.button = ::nana::mouse::left_button;
-			arg.evt_code = (wd->flags.dbl_click ? event_code::dbl_click : event_code::mouse_down);
-			break;
-		case WM_MBUTTONDBLCLK:
-			arg.button = ::nana::mouse::middle_button;
-			arg.evt_code = (wd->flags.dbl_click ? event_code::dbl_click : event_code::mouse_down);
-			break;
-		case WM_RBUTTONDBLCLK:
-			arg.button = ::nana::mouse::right_button;
-			arg.evt_code = (wd->flags.dbl_click ? event_code::dbl_click : event_code::mouse_down);
-			break;
-		case WM_MOUSEMOVE:
 			arg.button = ::nana::mouse::any_button;
 			arg.evt_code = event_code::mouse_move;
-			break;
-		default:
-			set_key_state = false;
+		}
+		//Mouse button actions
+		else
+		{
+			int buttonPart = (diff - 1) / 3;
+			arg.button = buttons[buttonPart];
+			arg.evt_code = codes[diff - 1 - 3 * buttonPart];
 		}
 
-		if (set_key_state)
-		{
-			arg.pos.x = pmdec.mouse.x - wd->pos_root.x;
-			arg.pos.y = pmdec.mouse.y - wd->pos_root.y;
-			arg.alt = (::GetKeyState(VK_MENU) < 0);
-			arg.shift = pmdec.mouse.button.shift;
-			arg.ctrl = pmdec.mouse.button.ctrl;
-			arg.left_button = pmdec.mouse.button.left;
-			arg.mid_button = pmdec.mouse.button.middle;
-			arg.right_button = pmdec.mouse.button.right;
-		}
+		arg.pos.x = pmdec.mouse.x - wd->pos_root.x;
+		arg.pos.y = pmdec.mouse.y - wd->pos_root.y;
+		arg.alt = (::GetKeyState(VK_MENU) < 0);
+		arg.shift = pmdec.mouse.button.shift;
+		arg.ctrl = pmdec.mouse.button.ctrl;
+		arg.left_button = pmdec.mouse.button.left;
+		arg.mid_button = pmdec.mouse.button.middle;
+		arg.right_button = pmdec.mouse.button.right;
 	}
 
 	void assign_arg(arg_wheel& arg, basic_window* wd, const parameter_decoder& pmdec)
@@ -778,6 +783,7 @@ namespace detail
 	LRESULT CALLBACK Bedrock_WIN32_WindowProc(HWND root_window, UINT message, WPARAM wParam, LPARAM lParam)
 	{
 		LRESULT window_proc_value = 0;
+		//Try trivially handling
 		if(trivial_message(root_window, message, wParam, lParam, window_proc_value))
 			return window_proc_value;
 

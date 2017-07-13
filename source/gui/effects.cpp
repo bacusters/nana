@@ -5,6 +5,7 @@ namespace nana
 {
 	namespace effects
 	{
+		//Set the generic destructor
 		bground_interface::~bground_interface()
 		{}
 

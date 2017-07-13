@@ -21,25 +21,27 @@ namespace nana
 {
 	namespace dev
 	{
-		/// An interface for measuring content of the widget
+		/**
+		 * \brief An interface for measuring content of the widget
+		 */
 		class widget_content_measurer_interface
 		{
 		public:
 			using graph_reference = paint::graphics&;
 			virtual ~widget_content_measurer_interface() = default;
 
-			/// Measures content
 			/**
-			 * @param graph The graphics for the operation.
-			 * @param limit_pixels The number of pixels of the limited edge. If this parameter is zero, it is ignored.
-			 * @param limit_width True if limits the width, false if limits the height.
-			 * @return the size of content.
+			 * \brief Measures content
+			 * \param graph The graphics for the operation.
+			 * \param limit_pixels The number of pixels of the limited edge. If this parameter is zero, it is ignored.
+			 * \param limit_width True if limits the width, false if limits the height.
+			 * \returns The size of content.
 			 */
 			virtual optional<size> measure(graph_reference graph, unsigned limit_pixels, bool limit_width) const = 0;
 
-			/// Returns the extension to the size of widget from content extent
 			/**
-			 * @return the width and height of extension to the widget size.
+			 * \brief Returns the extension to the size of widget from content extent
+			 * \return the width and height of extension to the widget size.
 			 */
 			virtual size extension() const = 0;
 		};
