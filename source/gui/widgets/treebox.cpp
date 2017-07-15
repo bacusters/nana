@@ -12,7 +12,6 @@
 #include <nana/gui/widgets/treebox.hpp>
 #include <nana/gui/widgets/scroll.hpp>
 #include <nana/gui/element.hpp>
-#include <nana/gui/layout_utility.hpp>
 #include <nana/system/platform.hpp>
 #include <map>
 

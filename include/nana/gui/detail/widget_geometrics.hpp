@@ -15,6 +15,7 @@
 
 #include <nana/gui/basis.hpp>
 #include <memory>
+#pragma output
 namespace nana
 {
 	/**

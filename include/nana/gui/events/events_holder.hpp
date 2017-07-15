@@ -11,7 +11,7 @@ namespace nana
 	{
 		/**
 		 * \interface events_holder
-		 * \brief Interface for an object holding events
+		 * \brief Interface for an object that emits events
 		 */
 		class events_holder
 		{

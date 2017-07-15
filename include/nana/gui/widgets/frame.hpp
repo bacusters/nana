@@ -15,7 +15,7 @@
 #ifndef NANA_GUI_WIDGET_FRAME_HPP
 #define NANA_GUI_WIDGET_FRAME_HPP
 
-#include "widget.hpp"
+#include <nana/gui/widgets/widget.hpp>
 
 #ifndef WIDGET_FRAME_DEPRECATED
 namespace nana

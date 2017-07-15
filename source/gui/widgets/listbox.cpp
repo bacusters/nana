@@ -21,7 +21,6 @@
 #include <nana/gui/widgets/listbox.hpp>
 #include <nana/gui/widgets/panel.hpp>	//for inline widget
 
-#include <nana/gui/layout_utility.hpp>
 #include <nana/gui/element.hpp>
 #include <nana/paint/text_renderer.hpp>
 #include <nana/system/dataexch.hpp>

@@ -13,7 +13,6 @@
 
 #include "../detail/platform_spec_selector.hpp"
 #include <nana/paint/pixel_buffer.hpp>
-#include <nana/gui/layout_utility.hpp>
 #include <nana/paint/detail/native_paint_interface.hpp>
 #include <nana/paint/detail/image_process_provider.hpp>
 

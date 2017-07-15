@@ -14,7 +14,7 @@
 
 #ifndef NANA_GUI_DETAIL_BEDROCK_HPP
 #define NANA_GUI_DETAIL_BEDROCK_HPP
-#include "general_events.hpp"
+#include <nana/gui/events/general_events.hpp>
 #include "color_schemes.hpp"
 
 namespace nana
@@ -23,7 +23,6 @@ namespace detail
 {
 	//Forward declarations
 	class	element_store;
-
 	class	events_operation;
 	struct	basic_window;
 	class	window_manager;
@@ -41,11 +40,16 @@ namespace detail
 	public:
 		using core_window_t = basic_window;
 
+		//Forward declare
 		struct thread_context;
-
 		class flag_guard;
 
 		~bedrock();
+		/**
+		 * \brief Updates the window loop of the specified window
+		 * \param window The window
+		 * \param is_modal Whether the window is modal. If a nullptr is given for the window, this argument is ignored.
+		 */
 		void pump_event(window window, bool is_modal);
 		void flush_surface(core_window_t* window, bool forced, const rectangle* update_area = nullptr);
 		static int inc_window(unsigned tid = 0);
@@ -63,6 +67,10 @@ namespace detail
 		 */
 		static bedrock& instance();
 
+		/**
+		 * Returns the focussed window
+		 * \returns Pointer to focussed window
+		 */
 		core_window_t* focus();
 
 		void set_menubar_taken(core_window_t*);
@@ -72,7 +80,17 @@ namespace detail
 		bool close_menu_if_focus_other_window(native_window_type focus);
 		void set_menu(native_window_type menu_window, bool is_keyboard_condition);
 		native_window_type get_menu(native_window_type owner, bool is_keyboard_condition);
+
+		/**
+		 * \brief 
+		 */
 		native_window_type get_menu();
+		
+		/**
+		 * \brief Unsets the active menu.
+		 * Clear all references to current menu. May also try to destroy the associated window.
+		 * \param try_destroy Additionally tries to destroy the window.
+		 */
 		void erase_menu(bool try_destroy);
 
 		/**
@@ -126,6 +144,7 @@ namespace detail
 		void _m_emit_core(event_code, core_window_t*, bool draw_only, const event_arg&);
 		void _m_event_filter(event_code, core_window_t*, thread_context*);
 	private:
+		///Singleton instance
 		static bedrock bedrock_object;
 
 		struct pi_data;

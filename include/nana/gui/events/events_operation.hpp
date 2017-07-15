@@ -1,7 +1,7 @@
 #ifndef NANA_DETAIL_EVENTS_OPERATION_HPP
 #define NANA_DETAIL_EVENTS_OPERATION_HPP
 
-#include <nana/gui/detail/general_events.hpp>
+#include <nana/gui/events/general_events.hpp>
 #include <unordered_set>
 
 #if defined(STD_THREAD_NOT_SUPPORTED)
@@ -14,9 +14,15 @@ namespace nana
 {
 	namespace detail
 	{
+		/**
+		 * \brief
+		 */
 		class events_operation
 		{
 		public:
+			/**
+			 * \brief Registers an event handle
+			 */
 			void register_evt(event_handle);
 			void cancel(event_handle);
 			void erase(event_handle);

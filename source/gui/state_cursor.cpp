@@ -11,8 +11,8 @@
  */
 #include <nana/gui/state_cursor.hpp>
 #include <nana/gui/detail/bedrock.hpp>
-#include <nana/gui/detail/basic_window.hpp>
-#include <nana/gui/detail/window_manager.hpp>
+#include <nana/gui/windows/basic_window.hpp>
+#include <nana/gui/windows/window_manager.hpp>
 
 namespace nana
 {

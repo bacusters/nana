@@ -5,8 +5,8 @@
 
 #include <nana/gui/detail/bedrock.hpp>
 #include "color_schemes.hpp"
-#include "events_operation.hpp"
-#include "window_manager.hpp"
+#include <nana/gui/events/events_operation.hpp>
+#include <nana/gui/windows/window_manager.hpp>
 #include <set>
 
 namespace nana

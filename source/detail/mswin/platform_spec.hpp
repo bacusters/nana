@@ -19,7 +19,7 @@
 
 #include <nana/gui/basis.hpp>
 #include <nana/paint/image.hpp>
-#include <nana/gui/detail/event_code.hpp>
+#include <nana/gui/events/event_code.hpp>
 
 #include <windows.h>
 #include <memory>

@@ -11,10 +11,9 @@
 *
 */
 
-#include <nana/gui/detail/window_layout.hpp>
-#include <nana/gui/detail/basic_window.hpp>
-#include <nana/gui/detail/native_window_interface.hpp>
-#include <nana/gui/layout_utility.hpp>
+#include <nana/gui/layout/window_layout.hpp>
+#include <nana/gui/windows/basic_window.hpp>
+#include <nana/gui/windows/native_window_interface.hpp>
 #include <algorithm>
 
 namespace nana

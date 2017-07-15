@@ -1,4 +1,4 @@
-#include <nana/gui/detail/events_operation.hpp>
+#include <nana/gui/events/events_operation.hpp>
 #include <nana/gui/detail/bedrock.hpp>
 
 namespace nana

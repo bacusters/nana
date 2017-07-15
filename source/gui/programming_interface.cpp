@@ -13,12 +13,12 @@
 
 #include <nana/gui/programming_interface.hpp>
 #include <nana/gui/detail/bedrock.hpp>
-#include <nana/gui/detail/basic_window.hpp>
-#include <nana/gui/detail/window_manager.hpp>
+#include <nana/gui/windows/basic_window.hpp>
+#include <nana/gui/windows/window_manager.hpp>
 #include <nana/system/platform.hpp>
-#include <nana/gui/detail/native_window_interface.hpp>
+#include <nana/gui/windows/native_window_interface.hpp>
 #include <nana/gui/widgets/widget.hpp>
-#include <nana/gui/detail/events_operation.hpp>
+#include <nana/gui/events/events_operation.hpp>
 
 namespace nana
 {

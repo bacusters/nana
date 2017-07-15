@@ -11,10 +11,10 @@
  */
 
 #include "../../detail/platform_spec_selector.hpp"
-#include <nana/gui/detail/native_window_interface.hpp>
-#include <nana/gui/screen.hpp>
+#include <nana/gui/windows/native_window_interface.hpp>
+#include <nana/gui/windows/screen.hpp>
 #include <nana/gui/detail/bedrock.hpp>
-#include <nana/gui/detail/window_manager.hpp>
+#include <nana/gui/windows/window_manager.hpp>
 
 #if defined(NANA_WINDOWS)
 	#if defined(STD_THREAD_NOT_SUPPORTED)

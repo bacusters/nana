@@ -20,8 +20,8 @@
 
 #include <nana/push_ignore_diagnostic>
 
-#include "event_code.hpp"
-#include "inner_fwd.hpp"
+#include <nana/gui/events/event_code.hpp>
+#include <nana/gui/detail/inner_fwd.hpp>
 #include <functional>
 
 namespace nana
@@ -78,10 +78,26 @@ namespace detail
 		window_manager();
 		~window_manager();
 
+		/**
+		 * \brief Returns the number of core windows registered
+		 * \returns The number of core windows
+		 */
 		std::size_t number_of_core_window() const;
+		/**
+		 * \brief Returns the internal mutex lock
+		 * \returns The mutex lock
+		 */
 		mutex_type & internal_lock() const;
-		void all_handles(std::vector<core_window_t*>&) const;
 
+		/**
+		 * \brief Returns all root window handles
+		 * \param output The collection to assign the handles to
+		 */
+		void all_handles(std::vector<core_window_t*>& output) const;
+
+		/**
+		 * \brief
+		 */
 		void event_filter(core_window_t*, bool is_make, event_code);
 
 		/**
@@ -99,6 +115,10 @@ namespace detail
 		bool available(core_window_t * window1, core_window_t* window2);
 
 		core_window_t* create_root(core_window_t*, bool nested, rectangle, const appearance&, widget*);
+		
+		/**
+		 * \brief Creates a widget window
+		 */
 		core_window_t* create_widget(core_window_t*, const rectangle&, bool is_lite, widget*);
 #ifndef WIDGET_FRAME_DEPRECATED
 		core_window_t* create_frame(core_window_t*, const rectangle&, widget*);
@@ -143,7 +163,14 @@ namespace detail
 		void do_lazy_refresh(core_window_t*, bool force_copy_to_screen, bool refresh_tree = false);
 
 		bool get_graphics(core_window_t*, nana::paint::graphics&);
-		bool get_visual_rectangle(core_window_t*, nana::rectangle&);
+
+		/**
+		 * \brief Returns the visual rectangle of the window
+		 * \param wd The window
+		 * \param rect The rectangle to save the visual rectangle in.
+		 * \returns Whether the visual rectangle was succesfully retrieved
+		 */
+		bool get_visual_rectangle(core_window_t* wd, nana::rectangle& rect);
 
 		/**
 		 * \brief Returns the children of the window, if the window is available.

@@ -14,7 +14,7 @@
 #define NANA_GUI_DETAIL_DRAWER_HPP
 
 #include <nana/push_ignore_diagnostic>
-#include "general_events.hpp"
+#include <nana/gui/events/general_events.hpp>
 #include <nana/paint/graphics.hpp>
 #include <functional>
 
@@ -194,6 +194,7 @@ namespace nana
 				{
 					if (method_state::pending == mth_state)
 					{
+						//Apply the event function
 						(realizer->*mfptr)(graphics, arg);
 						
 						//Check realizer, when the window is closed in that event handler, the drawer will be

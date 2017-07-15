@@ -10,8 +10,8 @@
 *	@file: nana/gui/detail/basic_window.cpp
 */
 
-#include <nana/gui/detail/basic_window.hpp>
-#include <nana/gui/detail/native_window_interface.hpp>
+#include <nana/gui/windows/basic_window.hpp>
+#include <nana/gui/windows/native_window_interface.hpp>
 
 namespace nana
 {
@@ -367,7 +367,9 @@ namespace nana
 
 			void basic_window::set_action(mouse_action act)
 			{
+				//Previous action
 				flags.action_before = flags.action;
+				//New action
 				flags.action = act;
 			}
 

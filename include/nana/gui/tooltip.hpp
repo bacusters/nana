@@ -11,7 +11,7 @@
 
 #ifndef NANA_GUI_WIDGETS_TOOLTIP_HPP
 #define NANA_GUI_WIDGETS_TOOLTIP_HPP
-#include "widgets/widget.hpp"
+#include <nana/gui/widgets/widget.hpp>
 
 namespace nana
 {

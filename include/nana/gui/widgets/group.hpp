@@ -17,7 +17,7 @@
 #ifndef NANA_GUI_WIDGETS_GROUP_HPP
 #define NANA_GUI_WIDGETS_GROUP_HPP
 
-#include <nana/gui/place.hpp>
+#include <nana/gui/layout/place.hpp>
 #include <nana/gui/widgets/panel.hpp>
 #include <nana/gui/widgets/checkbox.hpp>
 

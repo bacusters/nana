@@ -3,8 +3,7 @@
 #include <nana/gui/effects.hpp>
 #include <nana/paint/graphics.hpp>
 #include <nana/paint/pixel_buffer.hpp>
-#include <nana/gui/layout_utility.hpp>
-#include <nana/gui/detail/window_layout.hpp>
+#include <nana/gui/layout/window_layout.hpp>
 
 namespace nana{
 	namespace detail

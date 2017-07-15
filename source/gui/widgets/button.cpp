@@ -11,7 +11,7 @@
  */
 
 #include <nana/gui/widgets/button.hpp>
-#include <nana/gui/detail/widget_content_measurer_interface.hpp>
+#include <nana/gui/layout/widget_content_measurer_interface.hpp>
 
 #include <nana/paint/text_renderer.hpp>
 

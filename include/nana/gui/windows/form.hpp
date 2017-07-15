@@ -13,8 +13,8 @@
 #ifndef NANA_GUI_WIDGET_FORM_HPP
 #define NANA_GUI_WIDGET_FORM_HPP
 
-#include "widget.hpp"
-#include <nana/gui/place.hpp>
+#include <nana/gui/widgets/widget.hpp>
+#include <nana/gui/layout/place.hpp>
 
 namespace nana
 {

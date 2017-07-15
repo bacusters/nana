@@ -19,14 +19,23 @@
 
 namespace nana
 {
+	//Forward declare
 	class textbox;
 
+	/**
+	 * \brief Event argument for textbox
+	 */
 	struct arg_textbox
 		: public event_arg
 	{
+		///Chagned textbox
 		textbox& widget;
-		const std::vector<upoint>& text_position;	///< position of characters that the first character of line which are displayed
+		///Position of characters that the first character of line which are displayed
+		const std::vector<upoint>& text_position;
 
+		/**
+		 * \brief Construct the event arguments
+		 */
 		arg_textbox(textbox&, const std::vector<upoint>&);
 	};
 
@@ -34,6 +43,9 @@ namespace nana
 	{
 		namespace textbox
 		{
+			/**
+			 * \brief Textbox specific events object
+			 */
 			struct textbox_events
 				: public general_events
 			{
@@ -109,10 +121,12 @@ namespace nana
 		/// The default constructor without creating the widget.
 		textbox();
 
-		/// \brief The construct that creates a widget.
-		/// @param wd  A handle to the parent window of the widget being created.
-		/// @param visible  specifying the visible after creating.
-		textbox(window, bool visible);
+		/** 
+		 * \brief Creates a textbox for the given parent window
+		 * \param wd  A handle to the parent window of the widget being created.
+		 * \param visible Specifies the visibility after creating.
+		*/
+		textbox(window wd, bool visible);
 
 		/// \brief The construct that creates a widget with a specified text.
 		/// @param window  A handle to the parent window of the widget being created.

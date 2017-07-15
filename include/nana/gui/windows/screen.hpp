@@ -12,7 +12,7 @@
 
 #ifndef NANA_GUI_SCREEN_HPP
 #define NANA_GUI_SCREEN_HPP
-#include "basis.hpp"
+#include <nana/gui/basis.hpp>
 #include <functional>
 #include <memory>
 

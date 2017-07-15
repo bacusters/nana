@@ -14,7 +14,7 @@
 #include <nana/gui/detail/bedrock.hpp>
 #include <nana/gui/detail/drawer.hpp>
 #include <nana/gui/detail/effects_renderer.hpp>
-#include <nana/gui/detail/basic_window.hpp>
+#include <nana/gui/windows/basic_window.hpp>
 #include "dynamic_drawing_object.hpp"
 
 #if defined(NANA_X11)

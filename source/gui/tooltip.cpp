@@ -13,7 +13,7 @@
 #include <nana/gui/tooltip.hpp>
 #include <nana/gui/widgets/label.hpp>
 #include <nana/gui/timer.hpp>
-#include <nana/gui/screen.hpp>
+#include <nana/gui/windows/screen.hpp>
 #include <memory>
 
 namespace nana

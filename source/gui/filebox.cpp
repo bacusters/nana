@@ -11,7 +11,7 @@
 */
 
 #include <nana/gui.hpp>
-#include <nana/gui/filebox.hpp>
+#include <nana/gui/windows/filebox.hpp>
 #include <nana/filesystem/filesystem_ext.hpp>
 
 #if defined(NANA_WINDOWS)

@@ -14,11 +14,11 @@
 #ifndef NANA_GUI_DETAIL_BASIC_WINDOW_HPP
 #define NANA_GUI_DETAIL_BASIC_WINDOW_HPP
 #include <nana/push_ignore_diagnostic>
-#include "drawer.hpp"
-#include "events_holder.hpp"
-#include "widget_geometrics.hpp"
-#include "widget_content_measurer_interface.hpp"
-#include "widget_notifier_interface.hpp"
+#include <nana/gui/detail/drawer.hpp>
+#include <nana/gui/events/events_holder.hpp>
+#include <nana/gui/detail/widget_geometrics.hpp>
+#include <nana/gui/layout/widget_content_measurer_interface.hpp>
+#include <nana/gui/detail/widget_notifier_interface.hpp>
 #include <nana/datatypes/basic_types.hpp>
 #include <nana/system/platform.hpp>
 #include <nana/gui/effects.hpp>
@@ -157,7 +157,12 @@ namespace detail
 		 */
 		bool displayed() const;
 
+		/**
+		 * \brief Returns whether this window belongs to a lazy window refreshing chain
+		 * \returns Whether the window belongs to lazy refresh.
+		 */
 		bool belong_to_lazy() const;
+
 		/**
 		 * \brief Returns a pointer to the child window that owns the caret
 		 * \returns Pointer to child window
@@ -176,16 +181,25 @@ namespace detail
 		 */
 		basic_window * seek_non_lite_widget_ancestor() const;
 
-		void set_action(mouse_action);
+		/**
+		 * \brief Sets a new mouse action applied on the window. 
+		 * Stores the previous action in the window.
+		 * \param action The new action
+		 */
+		void set_action(mouse_action action);
 	public:
 		/// Override event_holder
 		bool set_events(const std::shared_ptr<general_events>&) override;
+		/**
+		 * \brief Returns a pointer to the events
+		 * \returns Pointer to events
+		 */
 		general_events * get_events() const override;
 	private:
 		/**
 		 * \brief Sets up position and size for this window
-		 * Takes into account the position of the parent, if specified
-		 * \param parent Parent of this window
+		 * Takes into account the position of the parent, if the parent is specified
+		 * \param parent Parent of this window, or nullptr if the window has no parent
 		 * \param rect Rectangle specifying location and dimensions of the window
 		 */
 		void _m_init_pos_and_size(basic_window* parent, const rectangle& rect);
@@ -237,6 +251,7 @@ namespace detail
 		 */
 		struct flags_type
 		{
+			//Create bitfields for flags
 			bool enabled	:1;
 			bool dbl_click	:1;
 			bool captured	:1;	///< if mouse button is down, it always receive mouse move even the mouse is out of its rectangle
@@ -245,12 +260,14 @@ namespace detail
 			bool refreshing	:1;
 			bool destroying	:1;
 			bool dropable	:1; ///< Whether the window has make mouse_drop event.
+			//--Boundary
 			bool fullscreen	:1;	///< When the window is maximizing whether it fit for fullscreen.
 			bool borderless :1;
 			bool make_bground_declared	: 1;	///< explicitly make bground for bground effects
 			bool ignore_menubar_focus	: 1;	///< A flag indicates whether the menubar sets the focus.
 			bool ignore_mouse_focus		: 1;	///< A flag indicates whether the widget accepts focus when clicking on it
 			bool space_click_enabled : 1;		///< A flag indicates whether enable mouse_down/click/mouse_up when pressing and releasing whitespace key.
+
 			unsigned Reserved	:18;
 			unsigned char tab;		///< indicate a window that can receive the keyboard TAB
 			mouse_action	action;
@@ -291,21 +308,11 @@ namespace detail
 		 */
 		struct other_tag
 		{
-#ifndef WIDGET_FRAME_DEPRECATED
-			struct	attr_frame_tag
-			{
-				native_window_type container{nullptr};
-				std::vector<native_window_type> attach;
-			};
-#endif
 			/**
 			 * \brief Container for root window data
 			 */
 			struct	attr_root_tag
 			{
-#ifndef WIDGET_FRAME_DEPRECATED
-				container	frames;	///< initialization is null, it will be created while creating a frame widget. Refer to WindowManager::create_frame
-#endif
 				///Collection of tabstop elements
 				container	tabstop;
 				///Effects collection
@@ -342,9 +349,6 @@ namespace detail
 			union
 			{
 				attr_root_tag * root;
-#ifndef WIDGET_FRAME_DEPRECATED
-				attr_frame_tag * frame;
-#endif
 			}attribute;
 
 			other_tag(category::flags);

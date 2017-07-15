@@ -9,7 +9,7 @@
  *	@file: nana/gui/widgets/form.cpp
  */
 
-#include <nana/gui/widgets/form.hpp>
+#include <nana/gui/windows/form.hpp>
 
 namespace nana
 {

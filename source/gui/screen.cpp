@@ -9,10 +9,10 @@
  *
  *	@file: nana/gui/screen.cpp
  */
-#include <nana/gui/screen.hpp>
+#include <nana/gui/windows/screen.hpp>
 #include <vector>
 #include <memory>
-#include <nana/gui/detail/native_window_interface.hpp>
+#include <nana/gui/windows/native_window_interface.hpp>
 #include <nana/gui/programming_interface.hpp>
 #if defined(NANA_WINDOWS)
 	#include <windows.h>

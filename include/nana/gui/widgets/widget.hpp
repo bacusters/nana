@@ -14,7 +14,7 @@
 #define NANA_GUI_WIDGET_HPP
 
 #include <nana/push_ignore_diagnostic>
-#include "../programming_interface.hpp"
+#include <nana/gui/programming_interface.hpp>
 #include <nana/text/internationalization.hpp>
 #include <nana/gui/detail/drawer.hpp>
 

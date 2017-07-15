@@ -19,7 +19,7 @@
 #include <algorithm>
 #include <nana/push_ignore_diagnostic>
 #include <nana/deploy.hpp>
-#include <nana/gui/place.hpp>
+#include <nana/gui/layout/place.hpp>
 #include <nana/gui/programming_interface.hpp>
 #include <nana/gui/widgets/label.hpp>
 #include <nana/gui/widgets/panel.hpp>

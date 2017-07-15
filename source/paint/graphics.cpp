@@ -15,7 +15,6 @@
 #include <nana/paint/graphics.hpp>
 #include <nana/paint/detail/native_paint_interface.hpp>
 #include <nana/paint/pixel_buffer.hpp>
-#include <nana/gui/layout_utility.hpp>
 #include <nana/text/unicode_bidi.hpp>
 #include <algorithm>
 #if defined(NANA_WINDOWS)

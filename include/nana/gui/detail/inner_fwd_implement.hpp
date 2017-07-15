@@ -16,7 +16,7 @@
 
 #include <nana/push_ignore_diagnostic>
 #include "inner_fwd.hpp"
-#include "basic_window.hpp"
+#include <nana/gui/windows/basic_window.hpp>
 #include "../../paint/graphics.hpp"
 
 #include <map>

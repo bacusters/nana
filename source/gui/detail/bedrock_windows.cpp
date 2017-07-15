@@ -16,13 +16,12 @@
 #if defined(NANA_WINDOWS)
 #include <nana/gui/detail/bedrock.hpp>
 #include <nana/gui/detail/bedrock_pi_data.hpp>
-#include <nana/gui/detail/event_code.hpp>
+#include <nana/gui/events/event_code.hpp>
 #include <nana/system/platform.hpp>
 #include <nana/system/timepiece.hpp>
 #include <nana/gui.hpp>
 #include <nana/gui/detail/inner_fwd_implement.hpp>
-#include <nana/gui/detail/native_window_interface.hpp>
-#include <nana/gui/layout_utility.hpp>
+#include <nana/gui/windows/native_window_interface.hpp>
 #include <nana/gui/detail/element_store.hpp>
 #include <nana/gui/detail/color_schemes.hpp>
 
@@ -386,23 +385,29 @@ namespace detail
 	void bedrock::pump_event(window condition_wd, bool is_modal)
 	{
 		const unsigned tid = ::GetCurrentThreadId();
-		auto context = this->open_thread_context(tid);
+		//Load context for the thread.
+		thread_context* context = this->open_thread_context(tid);
+
+		//Check if the thread context has any windows
 		if(0 == context->window_count)
 		{
-			//test if there is not a window
-			//GetMessage may block if there is not a window
+			//Remove thread context if none exist.
+			//Calling getmessage without a window will block the execution.
 			remove_thread_context();
 			return;
 		}
 
+		//Update the number of times the pump event has been called on the thread.
 		++(context->event_pump_ref_count);
 
+		//
 		auto & intr_locker = wd_manager().internal_lock();
 		intr_locker.revert();
 
 		try
 		{
 			MSG msg;
+			//If the given window was not a nullptr
 			if (condition_wd)
 			{
 				HWND native_handle = reinterpret_cast<HWND>(reinterpret_cast<core_window_t*>(condition_wd)->root);
@@ -413,7 +418,7 @@ namespace detail
 				}
 				else
 				{
-					//Loop while the handle is an existing window
+					//Loop while the handle is an existing window. May be deleted in the loop
 					while (::IsWindow(native_handle))
 					{
 						if (-1 != ::GetMessage(&msg, 0, 0, 0))
@@ -434,8 +439,10 @@ namespace detail
 					}//end while
 				}
 			}
+			//
 			else
 			{
+				//Process messages while the thread context has windows
 				while(context->window_count)
 				{
 					if(-1 != ::GetMessage(&msg, 0, 0, 0))
@@ -493,6 +500,7 @@ namespace detail
 		}
 
 		intr_locker.forward();
+		//Remove the window if the pump count is zero and no more windows are present.
 		if(0 == --(context->event_pump_ref_count))
 		{
 			if ((nullptr == condition_wd) || (0 == context->window_count))

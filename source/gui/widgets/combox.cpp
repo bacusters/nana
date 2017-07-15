@@ -17,7 +17,7 @@
 #include <nana/gui/widgets/float_listbox.hpp>
 #include <nana/gui/widgets/skeletons/text_editor.hpp>
 #include <nana/gui/widgets/skeletons/textbase_export_interface.hpp>
-#include <nana/gui/detail/widget_content_measurer_interface.hpp>
+#include <nana/gui/layout/widget_content_measurer_interface.hpp>
 
 #include <iterator>
 #include <algorithm>

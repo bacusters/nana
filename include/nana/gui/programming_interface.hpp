@@ -13,10 +13,10 @@
 #ifndef NANA_GUI_PROGRAMMING_INTERFACE_HPP
 #define NANA_GUI_PROGRAMMING_INTERFACE_HPP
 #include <nana/config.hpp>
-#include "effects.hpp"
-#include "detail/general_events.hpp"
-#include "detail/color_schemes.hpp"
-#include "detail/widget_content_measurer_interface.hpp"
+#include <nana/gui/effects.hpp>
+#include <nana/gui/events/general_events.hpp>
+#include <nana/gui/detail/color_schemes.hpp>
+#include <nana/gui/layout/widget_content_measurer_interface.hpp>
 #include <nana/paint/image.hpp>
 #include <memory>
 

@@ -12,14 +12,13 @@
 
 #include "../../detail/platform_spec_selector.hpp"
 #include <nana/gui/detail/bedrock_pi_data.hpp>
-#include <nana/gui/detail/event_code.hpp>
+#include <nana/gui/events/event_code.hpp>
 #include <nana/system/platform.hpp>
 #include <sstream>
 #include <nana/system/timepiece.hpp>
 #include <nana/gui/wvl.hpp>
-#include <nana/gui/detail/basic_window.hpp>
-#include <nana/gui/detail/native_window_interface.hpp>
-#include <nana/gui/layout_utility.hpp>
+#include <nana/gui/windows/basic_window.hpp>
+#include <nana/gui/windows/native_window_interface.hpp>
 #include <nana/gui/detail/element_store.hpp>
 #include <algorithm>
 

@@ -11,7 +11,7 @@
  *	@contributors: Ryan Gonzalez
  *
  */
-#include <nana/gui/layout_utility.hpp>
+#include <nana/datatypes/basic_types.hpp>
 
 namespace nana
 {

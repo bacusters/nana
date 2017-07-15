@@ -15,8 +15,8 @@
 #include <nana/push_ignore_diagnostic>
 
 #include <nana/gui/basis.hpp>
-#include "event_code.hpp"
-#include "internal_scope_guard.hpp"
+#include <nana/gui/events/event_code.hpp>
+#include <nana/gui/detail/internal_scope_guard.hpp>
 #include <type_traits>
 #include <functional>
 #include <vector>

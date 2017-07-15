@@ -88,7 +88,7 @@ namespace nana
 	struct keyboard
 	{
 		/**
-		 * \brief Enum for special control characters.
+		 * \brief Enum for special control characters/key actions
 		 */
 		enum{
 			//Control Code for ASCII

@@ -13,13 +13,12 @@
 
 #include <nana/config.hpp>
 #include <nana/gui/detail/bedrock.hpp>
-#include <nana/gui/detail/events_operation.hpp>
-#include <nana/gui/detail/window_manager.hpp>
-#include <nana/gui/detail/window_layout.hpp>
+#include <nana/gui/events/events_operation.hpp>
+#include <nana/gui/windows/window_manager.hpp>
+#include <nana/gui/layout/window_layout.hpp>
 #include "window_register.hpp"
-#include <nana/gui/detail/native_window_interface.hpp>
+#include <nana/gui/windows/native_window_interface.hpp>
 #include <nana/gui/detail/inner_fwd_implement.hpp>
-#include <nana/gui/layout_utility.hpp>
 #include <nana/gui/detail/effects_renderer.hpp>
 
 #include <stdexcept>
@@ -379,7 +378,11 @@ namespace detail
 						impl_->mutex.unlock();
 				}
 				else
-					throw std::runtime_error("The revert is not allowed");
+				{
+					char msg[128];
+					sprintf(msg, "The revert is not allowed: reverting from thread %d, while calling from %d", impl_->thread_id, nana::system::this_thread_id());
+					throw std::runtime_error(msg);
+				}
 			}
 
 			void window_manager::revertible_mutex::forward()
@@ -1112,7 +1115,7 @@ namespace detail
 			//Thread-Safe Required!
 			std::lock_guard<mutex_type> lock(mutex_);
 
-			//It's not worthy to redraw if visible is false
+			//Don't redraw if invisible
 			if (impl_->wd_register.available(wd) && wd->displayed())
 				window_layer::paint(wd, window_layer::paint_operation::try_refresh, true);
 		}
@@ -1127,7 +1130,7 @@ namespace detail
 			if (false == impl_->wd_register.available(wd))
 				return;
 
-			//It's not worthy to redraw if visible is false
+			//Don't draw invisible windows
 			if(wd->visible && (!wd->is_draw_through()))
 			{
 				using paint_operation = window_layer::paint_operation;

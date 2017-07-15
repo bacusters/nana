@@ -19,7 +19,7 @@
 #include "text_editor_part.hpp"
 #include <nana/text/unicode_bidi.hpp>
 
-#include <nana/gui/detail/general_events.hpp>
+#include <nana/gui/events/general_events.hpp>
 
 #include <functional>
 

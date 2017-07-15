@@ -15,12 +15,12 @@
 #ifndef NANA_GUI_WVL_HPP
 #define NANA_GUI_WVL_HPP
 
-#include "programming_interface.hpp"
-#include "screen.hpp"
-#include "widgets/form.hpp"
-#include "drawing.hpp"
-#include "msgbox.hpp"
-#include "place.hpp"
+#include <nana/gui/programming_interface.hpp>
+#include <nana/gui/windows/screen.hpp>
+#include <nana/gui/windows/form.hpp>
+#include <nana/gui/drawing.hpp>
+#include <nana/gui/windows/msgbox.hpp>
+#include <nana/gui/layout/place.hpp>
 
 
 namespace nana

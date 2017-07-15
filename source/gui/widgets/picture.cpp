@@ -13,10 +13,9 @@
  */
 
 #include <nana/gui/widgets/picture.hpp>
-#include <nana/gui/layout_utility.hpp>
 #include <nana/paint/image.hpp>
 #include <nana/gui/element.hpp>
-#include <nana/gui/detail/widget_content_measurer_interface.hpp>
+#include <nana/gui/layout/widget_content_measurer_interface.hpp>
 
 namespace nana
 {

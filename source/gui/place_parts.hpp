@@ -12,7 +12,7 @@
 #ifndef NANA_GUI_PLACE_PARTS_HPP
 #define NANA_GUI_PLACE_PARTS_HPP
 
-#include <nana/gui/widgets/form.hpp>
+#include <nana/gui/windows/form.hpp>
 #include <nana/gui/widgets/tabbar.hpp>
 #include <nana/gui/element.hpp>
 #include <nana/paint/text_renderer.hpp>
