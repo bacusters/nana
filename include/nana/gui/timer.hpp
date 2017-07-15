@@ -32,6 +32,15 @@ namespace nana
 
 	/**
 	 * \brief Timer class
+	 * The nana::timer class makes it possible to execute a specified function at regular intervals. The following example
+	 * executes the captured lambda every half second. 
+	 * \code
+	 * timer t;
+	 * t.interval(500); //Every 500 ms
+	 * t.elapsed([](elapseArgs){ std::cout << "Interval elapsed! Timer id was " << elapseArgs.id << std::endl;});
+	 * t.start();
+	 * \endcode
+	 * Exact precision of the intervals is hardware dependent.
 	 */
 	class timer
 	{
@@ -52,6 +61,9 @@ namespace nana
 		 */
 		timer();
 
+		/**
+		 * \brief Destructor
+		 */
 		~timer();
 
 		/**

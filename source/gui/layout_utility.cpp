@@ -231,19 +231,21 @@ namespace nana
 
 	void fit_zoom(const size& input_s, const size& ref_s, size& result_s)
 	{
-		double rate_input = double(input_s.width) / double(input_s.height);
-		double rate_ref = double(ref_s.width) / double(ref_s.height);
+		double inputAspectRatio = double(input_s.width) / double(input_s.height);
+		double targetAspectRatio = double(ref_s.width) / double(ref_s.height);
 
-		if(rate_input < rate_ref)
+		//Input aspect ratio is smaller than target
+		if(inputAspectRatio < targetAspectRatio)
 		{
 			result_s.height = ref_s.height;
-			result_s.width = static_cast<unsigned>(ref_s.height * rate_input);
+			result_s.width = static_cast<unsigned>(ref_s.height * inputAspectRatio);
 		}
-		else if(rate_input > rate_ref)
+		else if(inputAspectRatio > targetAspectRatio)
 		{
 			result_s.width = ref_s.width;
-			result_s.height = static_cast<unsigned>(ref_s.width / rate_input);
+			result_s.height = static_cast<unsigned>(ref_s.width / inputAspectRatio);
 		}
+		//Equal: just return the reference size
 		else
 			result_s = ref_s;
 	}

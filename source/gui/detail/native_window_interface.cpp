@@ -18,7 +18,7 @@
 
 #if defined(NANA_WINDOWS)
 	#if defined(STD_THREAD_NOT_SUPPORTED)
-        #include <nana/std_mutex.hpp>
+        #include <nana/threads/std_mutex.hpp>
     #else
         #include <mutex>
 	#endif
@@ -228,10 +228,16 @@ namespace nana{
 			if(owner && (nested == false))
 				::ClientToScreen(reinterpret_cast<HWND>(owner), &pt);
 
-			HWND native_wd = ::CreateWindowEx(style_ex, L"NanaWindowInternal", L"Nana Window",
-											style,
-											pt.x, pt.y, 100, 100,
-											reinterpret_cast<HWND>(owner), 0, ::GetModuleHandle(0), 0);
+			HWND native_wd = ::CreateWindowEx(style_ex, // ExtendedStyle definition
+											L"NanaWindowInternal", //Window class name
+											L"Nana Window", //Window name
+											style, //Style definition
+											pt.x, pt.y, //Location
+											100, 100, //Dimensions
+											reinterpret_cast<HWND>(owner), //Parent handle
+											0, //Menu handle 
+											::GetModuleHandle(0), //Module handle
+											0); //User data
 
 			//A window may have a border, this should be adjusted the client area fit for the specified size.
 			::RECT client;
@@ -863,6 +869,7 @@ namespace nana{
 		void native_interface::move_window(native_window_type wd, int x, int y)
 		{
 #if defined(NANA_WINDOWS)
+			//If called from another thread, post the move message
 			if(::GetWindowThreadProcessId(reinterpret_cast<HWND>(wd), 0) != ::GetCurrentThreadId())
 			{
 				nana::detail::messages::move_window * mw = new nana::detail::messages::move_window;
@@ -875,6 +882,7 @@ namespace nana{
 			{
 				::RECT r;
 				::GetWindowRect(reinterpret_cast<HWND>(wd), &r);
+				//Try to retrieve the owner, in which case the owner will be modified.
 				HWND owner = ::GetWindow(reinterpret_cast<HWND>(wd), GW_OWNER);
 				if(owner)
 				{

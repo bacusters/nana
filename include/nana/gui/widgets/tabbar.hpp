@@ -17,7 +17,7 @@
 
 #include "widget.hpp"
 #include <nana/pat/cloneable.hpp>
-#include <nana/any.hpp>
+#include <nana/datatypes/any.hpp>
 
 namespace nana
 {

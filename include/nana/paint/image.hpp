@@ -23,9 +23,13 @@ namespace paint
     /// load a picture file
 	class image
 	{
+		//Friend accessor
 		friend class image_accessor;
+
+		//Some function?
 		typedef bool (image::* unspecified_bool_t)() const; 
 	public:
+		//Implementation of image types
 		class image_impl_interface;
 
 		image() noexcept;
@@ -37,13 +41,44 @@ namespace paint
 		~image();
 		image& operator=(const image& rhs);
 		image& operator=(image&&);
+		
+		/**
+		* \brief Creates an image from the specified file
+		* \param file The file
+		* \returns Whether the image was loaded succesfully
+		*/
 		bool open(const ::std::string& file);
+
+		/**
+		 * \brief Creates an image from the specified file
+		 * \param file The file
+		 * \returns Whether the image was loaded succesfully
+		 */
 		bool open(const ::std::wstring& file);
 		
-		/// Opens an icon from a specified buffer
+		/**
+		 * \brief Interprets the specified data as an image.
+		 * Checks what type of image the data represents
+		 * \param data The image data
+		 * \param bytes The number of bytes in the data
+		 * \returns Whether the interpretation was succesful.
+		 */
 		bool open(const void* data, std::size_t bytes);
+		
+		/**
+		 * \brief Returns whether no image is loaded into the class
+		 * \returns Whether no image is loaded.
+		 */
 		bool empty() const noexcept;
+		
+		/**
+		 * \brief Converts the image to a bool returning member function which checks emptiness.
+		 */
 		operator unspecified_bool_t() const;
+
+		/**
+		 * \brief Destroys the current image
+		 */
 		void close() noexcept;
 
 		bool alpha() const noexcept;

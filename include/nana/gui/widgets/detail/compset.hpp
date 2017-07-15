@@ -12,7 +12,7 @@
 #ifndef NANA_GUI_WIDGETS_DETAIL_COMPSET_HPP
 #define NANA_GUI_WIDGETS_DETAIL_COMPSET_HPP
 
-#include <nana/basic_types.hpp>
+#include <nana/datatypes/basic_types.hpp>
 
 namespace nana{	namespace widgets{ namespace detail
 {

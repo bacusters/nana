@@ -13,8 +13,8 @@
 #ifndef NANA_WIDGET_CONTENT_MEASURER_INTERFACE_HEADER_INCLUDED
 #define NANA_WIDGET_CONTENT_MEASURER_INTERFACE_HEADER_INCLUDED
 
-#include <nana/basic_types.hpp>
-#include <nana/optional.hpp>
+#include <nana/datatypes/basic_types.hpp>
+#include <nana/datatypes/optional.hpp>
 #include <nana/paint/graphics.hpp>
 
 namespace nana

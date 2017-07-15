@@ -24,8 +24,8 @@
 #include "widget.hpp"
 #include "detail/inline_widget.hpp"
 #include <nana/pat/abstract_factory.hpp>
-#include <nana/concepts.hpp>
-#include <nana/key_type.hpp>
+#include <nana/datatypes/concepts.hpp>
+#include <nana/datatypes/key_type.hpp>
 #include <functional>
 #include <initializer_list>
 #include <mutex>

@@ -14,7 +14,7 @@
 #define NANA_GUI_WIDGETS_DATE_CHOOSER_HPP
 #include <nana/push_ignore_diagnostic>
 #include "widget.hpp"
-#include <nana/datetime.hpp>
+#include <nana/datatypes/datetime.hpp>
 
 namespace nana
 {

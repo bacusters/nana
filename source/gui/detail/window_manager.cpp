@@ -186,16 +186,18 @@ namespace nana
 
 		root_misc * root_register::find(native_window_type wd)
 		{
+			//Return cached result. Prevents looking up the data in the map
 			if (wd == impl_->recent_access)
 				return impl_->misc_ptr;
 
+			//If not cached, set the window as the new cached window.
 			impl_->recent_access = wd;
 
 			auto i = impl_->table.find(wd);
 			if (i != impl_->table.end())
 				impl_->misc_ptr = &(i->second);
 			else
-				impl_->misc_ptr = nullptr;
+				impl_->misc_ptr = nullptr; //No misc pointer present
 
 			return impl_->misc_ptr;
 		}

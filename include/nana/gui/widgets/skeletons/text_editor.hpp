@@ -17,7 +17,7 @@
 
 #include "textbase.hpp"
 #include "text_editor_part.hpp"
-#include <nana/unicode_bidi.hpp>
+#include <nana/text/unicode_bidi.hpp>
 
 #include <nana/gui/detail/general_events.hpp>
 

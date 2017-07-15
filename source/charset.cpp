@@ -15,7 +15,7 @@
  *		crillion
  */
 
-#include <nana/charset.hpp>
+#include <nana/text/charset.hpp>
 #include <utility>
 #include <nana/deploy.hpp>
 #include <cwchar>

@@ -23,7 +23,7 @@
 #include "detail/compset.hpp"
 #include "detail/tree_cont.hpp"
 #include <nana/gui/timer.hpp>
-#include <nana/any.hpp>
+#include <nana/datatypes/any.hpp>
 #include <nana/pat/cloneable.hpp>
 #include <stdexcept>
 

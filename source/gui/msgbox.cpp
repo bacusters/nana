@@ -19,8 +19,8 @@
 #include <nana/gui/widgets/panel.hpp>
 #include <nana/gui/widgets/picture.hpp>
 #include <nana/gui/place.hpp>
-#include <nana/datetime.hpp>
-#include <nana/internationalization.hpp>
+#include <nana/datatypes/datetime.hpp>
+#include <nana/text/internationalization.hpp>
 #include <nana/gui/filebox.hpp>
 #include <functional>
 #include <cstdlib>  //include std::abs

@@ -12,7 +12,7 @@
 #ifndef NANA_PAINT_IMAGE_PROCESS_INTERFACE_HPP
 #define NANA_PAINT_IMAGE_PROCESS_INTERFACE_HPP
 
-#include <nana/basic_types.hpp>
+#include <nana/datatypes/basic_types.hpp>
 #include <nana/paint/pixel_buffer.hpp>
 
 namespace nana

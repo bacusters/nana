@@ -1,7 +1,7 @@
 
 #include "../detail/platform_spec_selector.hpp"
 #include <nana/paint/text_renderer.hpp>
-#include <nana/unicode_bidi.hpp>
+#include <nana/text/unicode_bidi.hpp>
 #include <nana/paint/detail/native_paint_interface.hpp>
 
 namespace nana

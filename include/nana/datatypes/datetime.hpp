@@ -15,10 +15,15 @@
 
 namespace nana
 {
-	/// A date operation class. \see nana::date_chooser
+	/**
+	 * A date operation class. \see nana::date_chooser
+	 */
 	class date
 	{
 	public:
+		/**
+		 * \brief Date value struct
+		 */
 		struct value
 		{
 			unsigned year;	///< 1601 - 30827
@@ -26,8 +31,17 @@ namespace nana
 			unsigned day;	///< 1-31
 		};
 
-		date();					///< the initialized date is today.
+		/**
+		 * \brief Initialize a date with the date of today.
+		 */
+		date();
 		date(const std::tm&);
+		/**
+		 * \brief Initializes a date with the given year, month and day.
+		 * \param year The year
+		 * \param month The month
+		 * \param day The day
+		 */
 		date(int year, int month, int day);
 
 		date operator - (int off) const;
@@ -54,6 +68,9 @@ namespace nana
 		value	value_;
 	}; //end class date
 
+	/**
+	 * \brief Class representing time of the day
+	 */
 	class time
 	{
 	public:

@@ -1,7 +1,7 @@
 #include <nana/audio/detail/audio_stream.hpp>
 #ifdef NANA_ENABLE_AUDIO
 
-#include <nana/charset.hpp>
+#include <nana/text/charset.hpp>
 
 namespace nana{	namespace audio
 {

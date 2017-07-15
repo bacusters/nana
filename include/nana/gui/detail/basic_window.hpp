@@ -19,7 +19,7 @@
 #include "widget_geometrics.hpp"
 #include "widget_content_measurer_interface.hpp"
 #include "widget_notifier_interface.hpp"
-#include <nana/basic_types.hpp>
+#include <nana/datatypes/basic_types.hpp>
 #include <nana/system/platform.hpp>
 #include <nana/gui/effects.hpp>
 
@@ -278,9 +278,9 @@ namespace detail
 		 */
 		struct
 		{
-			///
+			///The edge nimbus
 			effects::edge_nimbus	edge_nimbus;
-			///
+			///Background rendering interface
 			effects::bground_interface * bground;
 			///Fade rate of background
 			double	bground_fade_rate;

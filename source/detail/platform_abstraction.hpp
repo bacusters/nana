@@ -21,8 +21,9 @@
 
 namespace nana
 {
-
-
+	/**
+	 * \brief 
+	 */
 	class platform_abstraction
 	{
 	public:

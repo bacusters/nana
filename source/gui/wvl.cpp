@@ -13,7 +13,7 @@
 
 #include <nana/gui/wvl.hpp>
 #include <nana/gui/detail/bedrock.hpp>
-#include <nana/std_thread.hpp>
+#include <nana/threads/std_thread.hpp>
 #include <iostream> 
 #include <chrono>
 

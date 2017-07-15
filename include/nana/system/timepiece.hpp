@@ -16,11 +16,21 @@
 namespace nana
 {
 namespace system
-{           ///  used for measuring and signaling the end of time intervals.
+{
+	/**
+	 * \brief Used for measuring and signaling the end of time intervals.
+	 * May be used by multiple threads.
+	 */
 	class timepiece
 	{
 	public:
+		/**
+		 * \brief Default constructor
+		 */
 		timepiece();
+		/**
+		 * \brief 
+		 */
 		timepiece(const volatile timepiece&);
 		~timepiece();
 		timepiece & operator=(const volatile timepiece &);

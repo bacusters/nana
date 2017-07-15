@@ -15,7 +15,7 @@
 
 #include <memory>
 
-#include "../basic_types.hpp"
+#include <nana/datatypes/basic_types.hpp>
 #include "../gui/basis.hpp"
 #include <nana/filesystem/filesystem.hpp>
 

@@ -11,7 +11,7 @@
 
 #ifndef NANA_PAINT_DETAIL_PLATFORM_HPP
 #define NANA_PAINT_DETAIL_PLATFORM_HPP
-#include <nana/basic_types.hpp>
+#include <nana/datatypes/basic_types.hpp>
 
 namespace nana
 {

@@ -17,7 +17,7 @@
 
 #include <nana/push_ignore_diagnostic>
 
-#include "../basic_types.hpp"
+#include <nana/datatypes/basic_types.hpp>
 #include "../traits.hpp"	//metacomp::fixed_type_set
 
 namespace nana

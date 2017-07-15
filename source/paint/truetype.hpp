@@ -3,7 +3,7 @@
 
 #include <cstdint>
 #include <fstream>
-#include <nana/charset.hpp>
+#include <nana/text/charset.hpp>
 #include <nana/filesystem/filesystem.hpp>
 
 namespace nana

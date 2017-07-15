@@ -14,7 +14,7 @@
 #define NANA_GUI_DRAGGER_HPP
 #include <nana/push_ignore_diagnostic>
 #include "basis.hpp"
-#include "../basic_types.hpp"
+#include <nana/datatypes/basic_types.hpp>
 #include "../traits.hpp"
 
 namespace nana

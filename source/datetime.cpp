@@ -10,7 +10,7 @@
  */
 
 #include <nana/config.hpp>
-#include <nana/datetime.hpp>
+#include <nana/datatypes/datetime.hpp>
 #if defined(NANA_WINDOWS)
 	#include <windows.h>
 #endif

@@ -19,7 +19,7 @@
 #include <nana/config.hpp>
 #include <nana/stdc++.hpp>
 
-#include <nana/charset.hpp>
+#include <nana/text/charset.hpp>
 
 #include <stdexcept>
 

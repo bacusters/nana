@@ -15,8 +15,8 @@
 #define NANA_GUI_WIDGET_DETAIL_TEXTBASE_HPP
 #include <nana/push_ignore_diagnostic>
 
-#include <nana/charset.hpp>
-#include <nana/basic_types.hpp>
+#include <nana/text/charset.hpp>
+#include <nana/datatypes/basic_types.hpp>
 #include <nana/traits.hpp>
 #include "textbase_export_interface.hpp"
 

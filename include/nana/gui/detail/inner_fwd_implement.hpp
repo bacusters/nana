@@ -25,7 +25,7 @@ namespace nana{
 	namespace detail
 	{
 		/**
-		 * \brief Container for shortkeys
+		 * \brief Container for shortkeys. Shortkeys allow actions based on alt buttons and an identifier.
 		 */
 		class shortkey_container
 		{
@@ -69,7 +69,7 @@ namespace nana{
 		};
 
 		/**
-		 *
+		 * Struct containing additional data for a root window.
 		 */
 		struct root_misc
 		{
@@ -95,7 +95,7 @@ namespace nana{
 
 
 		/**
-		 * \brief 
+		 * \brief Register for root windows
 		 */
 		class root_register
 		{

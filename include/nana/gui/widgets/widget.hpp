@@ -15,7 +15,7 @@
 
 #include <nana/push_ignore_diagnostic>
 #include "../programming_interface.hpp"
-#include <nana/internationalization.hpp>
+#include <nana/text/internationalization.hpp>
 #include <nana/gui/detail/drawer.hpp>
 
 namespace nana
@@ -26,12 +26,16 @@ namespace nana
 		class widget_notifier_interface;
 	}
 
-	/// Abstract class for defining the capacity interface.
+	/**
+	 * Abstract class for widgets. Defines the capacity interface.
+	 */
 	class widget
 	{
+		//Notifier
 		friend class detail::widget_notifier_interface;
 		///Implementation of widget notifier
 		class inner_widget_notifier;
+
 		typedef void(*dummy_bool_type)(widget* (*)(const widget&));
 
 		
@@ -49,8 +53,15 @@ namespace nana
 		widget() = default;
 
 		virtual ~widget() = default;
-		virtual window handle() const = 0;			///< Returns the handle of window, returns 0 if window is not created.
-		bool empty() const;							///< Determines whether the manipulator is handling a window.
+		/**
+		 * \brief Returns the handle of window, returns 0 if window is not created.
+		 * \returns The window handle
+		 */
+		virtual window handle() const = 0;
+		/**
+		 * 	Determines whether the manipulator is handling a window.
+		 */
+		bool empty() const;					
 		void close();
 
 		window parent() const;
@@ -84,20 +95,32 @@ namespace nana
 		void focus();
 		bool focused() const;
 
-		void show();						///< Sets the window visible.
-		void hide();						///< Sets the window invisible.
+		/**
+		 * \brief Show the window.
+		 */
+		void show();
+		/**
+		 * \brief Hide the window
+		 */
+		void hide();
+		/**
+		 * \brief Returns whether the window is visible.
+		 * \returns Whether the window is visible.
+		 */
 		bool visible() const;
 
 		nana::size size() const;
 		void size(const nana::size&);
 
-		/// Enables the widget to grab the mouse input.
 		/*
-		 * @param ignore_children Indicates whether to redirect the mouse input to its children if the mouse pointer is over its children.
+		 * Enables the widget to grab the mouse input.
+		 * \param ignore_children Indicates whether to redirect the mouse input to its children if the mouse pointer is over its children.
 		 */
 		void set_capture(bool ignore_children);
 
-		/// Disables the widget to grab the mouse input.
+		/**
+		 * \brief Stops capturing mouse input for this widget.
+		 */
 		void release_capture();
 		
 		point pos() const;
@@ -122,6 +145,10 @@ namespace nana
 		operator dummy_bool_type() const;
 		operator window() const;
 	protected:
+		/**
+		 * \brief Constructs a pointer to a new inner notifier implementation
+		 * \returns Pointer to the notifier implementation.
+		 */
 		std::unique_ptr<::nana::detail::widget_notifier_interface> _m_wdg_notifier();
 	private:
 		virtual void _m_notify_destroy() = 0;
@@ -187,17 +214,34 @@ namespace nana
 			API::close_window(handle());
 		}
 
+		/**
+		 * \brief Returns the associated events of the widget
+		 * \returns The events object
+		 */
 		event_type& events() const
 		{
 			return *events_;
 		}
 
-		bool create(window parent_wd, bool visible)   ///< Creates a no-size (zero-size) widget. in a widget/root window specified by parent_wd.
+		/**
+		 * Creates a zero-size widget in a widget/root window specified by parent_wd.
+		 * \param parent_wd The parent window
+		 * \param visible Whether to make the widget visible
+		 * \returns Whether the creation was succesful
+		 */
+		bool create(window parent_wd, bool visible)
 		{
 			return create(parent_wd, rectangle(), visible);
 		}
 
-		bool create(window parent_wd, const rectangle & r = {}, bool visible = true)  ///< in a widget/root window specified by parent_wd.
+		/**
+		 * \brief  Creates a widget in a widget/root window of the specificied dimensions and visibility.
+		 * \param parent_wd The window to creates this widget in
+		 * \param r The location to occupy
+		 * \param visible Whether the widget should be visible
+		 * \returns Whether creation of the widget was succesful.
+		 */
+		bool create(window parent_wd, const rectangle & r = {}, bool visible = true)
 		{
 			if(parent_wd && this->empty())
 			{
@@ -213,49 +257,82 @@ namespace nana
 			return (this->empty() == false);
 		}
 
+		/**
+		 * \brief Makes the widget borderless or not
+		 * \param enable Whether to enable or disable this
+		 * \returns Modified widget_object reference
+		 */
 		widget_object& borderless(bool enable)
 		{
 			API::widget_borderless(handle_, enable);
 			return *this;
 		}
 
+		/**
+		 * \brief Returns whether the window is borderless.
+		 * \returns Whether the window is borderless.
+		 */
 		bool borderless() const
 		{
 			return API::widget_borderless(handle_);
 		}
 
+		/**
+		 * \brief Returns the scheme of the widget
+		 * \returns Reference to the scheme.
+		 */
 		scheme_type& scheme() const
 		{
 			return *scheme_;
 		}
 	protected:
+		/**
+		 * \brief Returns the drawer trigger
+		 * \returns Reference to the drawer trigger
+		 */
 		DrawerTrigger& get_drawer_trigger()
 		{
 			return trigger_;
 		}
-
+		/**
+		* \brief Returns the drawer trigger as const
+		* \returns const reference to the drawer trigger
+		*/
 		const DrawerTrigger& get_drawer_trigger() const
 		{
 			return trigger_;
 		}
 	private:
+		/**
+		 * \returns A reference to the general events
+		 */
 		general_events& _m_get_general_events() const override
 		{
 			return *events_;
 		}
 
+		/**
+		 * \brief Notifies the widget to destroy itself.
+		 * Resets all events.
+		 */
 		void _m_notify_destroy() override final
 		{
 			widget_base::_m_notify_destroy();
 			events_ = std::make_shared<Events>();
 		}
 	private:
+		///The drawer trigger
 		DrawerTrigger trigger_;
+		///Pointer to events object
 		std::shared_ptr<Events> events_;
+		///Pointer to scheme
 		std::unique_ptr<scheme_type> scheme_;
 	};//end class widget_object
 
-	        /// Base class of all the classes defined as a non-graphics-buffer widget window. The second template parameter DrawerTrigger is always ignored.\see nana::panel
+	/**
+	 * Base class for all widgets with a non-graphics-buffer widget window. No drawer will be created for the widget.
+	 * The DrawerTrigger template parameter is always ignored.\see nana::panel
+	 */
 	template<typename DrawerTrigger, typename Events, typename Scheme>
 	class widget_object<category::lite_widget_tag, DrawerTrigger, Events, Scheme>: public detail::widget_base
 	{
@@ -279,12 +356,25 @@ namespace nana
 			return *events_;
 		}
 
-		bool create(window parent_wd, bool visible)    ///< Creates a no-size (zero-size) widget. in a widget/root window specified by parent_wd.
+		/**
+		 * Creates a no-size (zero-size) widget in a widget/root window specified by parent_wd.
+		 * \param parent_wd The parent window/widget
+		 * \param visible Whether the widget should be visible
+		 * \returns Whether the construction was succesful 
+		*/
+		bool create(window parent_wd, bool visible)    ///< 
 		{
 			return create(parent_wd, rectangle(), visible);
 		}
 
-		bool create(window parent_wd, const rectangle& r = rectangle(), bool visible = true)  ///< in a widget/root window specified by parent_wd.
+		/**
+		* Creates a widget of specified size in a widget/root window specified by parent_wd.
+		* \param parent_wd The parent window/widget
+		* \param r Size of the widget
+		* \param visible Whether the widget should be visible
+		* \returns Whether the construction was succesful
+		*/
+		bool create(window parent_wd, const rectangle& r = rectangle(), bool visible = true)  
 		{
 			if(parent_wd && this->empty())
 			{
@@ -319,7 +409,9 @@ namespace nana
 	};//end class widget_object
 
 
-	        /// Base class of all the classes defined as a root window. \see nana::form
+	/**
+	 * Base class for all root window widgets. \see nana::form
+	 */
 	template<typename DrawerTrigger, typename Events, typename Scheme>
 	class widget_object<category::root_tag, DrawerTrigger, Events, Scheme>: public detail::widget_base
 	{
@@ -350,11 +442,18 @@ namespace nana
 			return *events_;
 		}
 
+		/**
+		 * \brief Activates the window
+		 */
 		void activate()
 		{
 			API::activate_window(handle_);
 		}
 
+		/**
+		 * \brief Returns a handle to the native window representing the widget.
+		 * \returns The native window handle
+		 */
 		native_window_type native_handle() const
 		{
 			return API::root(handle_);

@@ -109,6 +109,11 @@ namespace paint
 			return *this;
 		}
 
+		/**
+		 * \brief Local function for creating an image from file
+		 * \param p The file
+		 * \returns Pointer to the image
+		 */
 		std::shared_ptr<image::image_impl_interface> create_image(const fs::path & p)
 		{
 			std::shared_ptr<image::image_impl_interface> ptr;
@@ -117,12 +122,14 @@ namespace paint
 			if (ext.empty())
 				return ptr;
 
+			//Make extension lowercase
 			std::transform(ext.begin(), ext.end(), ext.begin(), [](int ch)
 			{
 				if ('A' <= ch && ch <= 'Z')
 					ch -= ('A' - 'a');
 				return ch;
 			});
+
 
 #if defined(NANA_WINDOWS)
 			const wchar_t* ext_ico = L".ico";

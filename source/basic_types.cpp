@@ -11,7 +11,7 @@
  *	@contributos: Jan
  */
 
-#include <nana/basic_types.hpp>
+#include <nana/datatypes/basic_types.hpp>
 #if defined(USE_STD_REGEX)
 #include <regex>
 #else

@@ -15,7 +15,7 @@
 #include <nana/gui/widgets/label.hpp>
 #include <nana/gui/widgets/skeletons/text_token_stream.hpp>
 #include <nana/gui/detail/widget_content_measurer_interface.hpp>
-#include <nana/unicode_bidi.hpp>
+#include <nana/text/unicode_bidi.hpp>
 #include <nana/system/platform.hpp>
 #include <stdexcept>
 #include <sstream>

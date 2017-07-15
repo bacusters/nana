@@ -12,7 +12,7 @@
 
 #include <nana/push_ignore_diagnostic>
 
-#include <nana/internationalization.hpp>
+#include <nana/text/internationalization.hpp>
 #include <nana/gui/programming_interface.hpp>
 #include <unordered_map>
 #include <fstream>

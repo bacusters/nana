@@ -14,7 +14,7 @@
 #include <nana/gui/widgets/skeletons/textbase_export_interface.hpp>
 #include <nana/gui/element.hpp>
 #include <nana/system/dataexch.hpp>
-#include <nana/unicode_bidi.hpp>
+#include <nana/text/unicode_bidi.hpp>
 #include <nana/gui/widgets/widget.hpp>
 #include "content_view.hpp"
 

@@ -16,8 +16,8 @@
 #include "widget.hpp"
 #include "float_listbox.hpp"
 #include "skeletons/text_editor_part.hpp"
-#include <nana/key_type.hpp>
-#include <nana/concepts.hpp>
+#include <nana/datatypes/key_type.hpp>
+#include <nana/datatypes/concepts.hpp>
 #include <functional>
 
 namespace nana

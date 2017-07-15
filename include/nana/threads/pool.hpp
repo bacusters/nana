@@ -24,47 +24,104 @@ namespace threads
 {    /// A thread pool manages a group threads for a large number of tasks processing.
 	class pool
 	{
+		/**
+		 * \brief Task to append to the task queue
+		 * Can either be a genuine task, or a signal.
+		 */
 		struct task
 		{
+			///Task type enumeration
 			enum t{general, signal};
 
+			///The task type
 			const t kind;
 
-			task(t);
+			/**
+			 * \brief Constructs a task of the given type
+			 * \param type Task type, which is either 'general' or 'signal'
+			 */
+			task(t type);
+			/**
+			 * \brief Destroy the task
+			 */
 			virtual ~task() = 0;
+			/**
+			 * \brief Run the task
+			 */
 			virtual void run() = 0;
 		};
 
+		/**
+		 * \brief Wrapper for a function as a task
+		 */
 		template<typename Function>
 		struct task_wrapper
 			: task
 		{
 			typedef Function function_type;
+			///The task function
 			function_type taskobj;
 
+			/**
+			 * \brief Create a new task
+			 * \param f The function to apply
+			 */
 			task_wrapper(const function_type& f)
 				: task(task::general), taskobj(f)
 			{}
 
+			/**
+			 * \brief Run the wrapped function
+			 */
 			void run()
 			{
 				taskobj();
 			}
 		};
 
+		//Task signal
 		struct task_signal;
+		//The local implementation
 		class impl;
 
+		//Don't allow copy construction
 		pool(const pool&) = delete;
+		//Don't allow copy assignment
 		pool& operator=(const pool&) = delete;
 	public:
-		pool();                             ///< Creates a group of threads.
-		pool(pool&&);
-		pool(std::size_t thread_number);    ///< Creates a number of threads specifed by thread_number.
-		~pool();    ///< waits for the all running tasks till they are finished and skips all the queued tasks.
+		/**
+		 * \brief Creates a default size thread pool.
+		 * Default size is 4 threads.
+		 */
+		pool();
 
-		pool& operator=(pool&&);
+		/**
+		 * \brief Move constructor
+		 * \param other The other pool to initialize this pool with.
+		 */
+		pool(pool&& other);
 
+		/**
+		 * \brief Creates a pool with the specified number of threads
+		 * \param thread_number Number of threads to instantiate
+		 */
+		pool(std::size_t thread_number);
+		/**
+		 * \brief Waits for all running tasks to complete and skips all queued tasks.
+		 */
+		~pool();
+
+		/**
+		 * \brief Moves implementation of the other pool to this pool.
+		 * Destroys the local resources if available and connects them to the resources of the given pool
+		 * \param other The pool to copy resources from
+		 */
+		pool& operator=(pool&& other);
+
+		/**
+		 * \brief Adds a new task to the task queue
+		 * \param f Function to execute.
+		 */
 		template<typename Function>
 		void push(const Function& f)
 		{
@@ -77,20 +134,36 @@ namespace threads
 			}
 			catch(std::bad_alloc&)
 			{
+				//Bad alloc is thrown when the pool is addressed concurrently?
 				delete taskptr;
 			}
 		}
 
-		void signal(); ///< Make a signal that will be triggered when the tasks which are pushed before it are finished.
-		void wait_for_signal();     ///< Waits for a signal until the signal processed.
+		/**
+		 * \brief Creates a signal that will be triggered when the tasks which are pushed before it are finished.
+		 */
+		void signal();
+		/**
+		 * \brief Waits for a signal created by signal()
+		 */
+		void wait_for_signal();
+		/**
+		 * \brief Waits for all thread tasks to complete
+		 */
 		void wait_for_finished();
 	private:
+		/**
+		 * \brief Pushes the new task unto the task queue
+		 * \param task_ptr Pointer to the task
+		 */
 		void _m_push(task* task_ptr);
 	private:
 		impl * impl_;
 	};//end class pool
 
-            /// Manages a group threads for a large number of tasks processing.
+    /**
+     * \brief Wrapper for pushing the same task on the specified pool multiple times
+     */
 	template<typename Function>
 	class pool_pusher
 	{
@@ -98,16 +171,26 @@ namespace threads
            /// same as Function if Function is not a function prototype, otherwise value_type is a pointer type of function
 		typedef typename std::conditional<std::is_function<Function>::value, Function*, Function>::type value_type;
 
+		/**
+		 * \brief Creates a pusher for the given pool that can repeatedly push the specified function on the task queue.
+		 * \param pobj Reference to the thread pool
+		 * \param fn The function
+		 */
 		pool_pusher(pool& pobj, value_type fn)
 			:pobj_(pobj), value_(fn)
 		{}
 
+		/**
+		 * \brief Pushes the wrapped function on the queue
+		 */
 		void operator()() const
 		{
 			pobj_.push(value_);
 		}
 	private:
+		///Local reference to pool
 		pool & pobj_;
+		///Function to push
 		value_type value_;
 	};
 
@@ -117,6 +200,13 @@ namespace threads
 		return pool_pusher<Function>(pobj, fn);
 	}
 
+	/**
+	 * \brief Creates a pool pusher for a member function
+	 * \param pobj The pool
+	 * \param obj Target class object
+	 * \param mf Member function pointer
+	 * \returns A new pool pusher that pushes the member function, applied on the object, on the task queue
+	 */
 	template<typename Class, typename Concept>
 	pool_pusher<std::function<void()> > pool_push(pool& pobj, Class& obj, void(Concept::*mf)())
 	{

@@ -11,9 +11,14 @@
 
 namespace nana
 {
+	/**
+	* \brief Null-type tag
+	*/
 	class null_type{};
 
-	/// Prevent a class to be copyable
+	/** 
+	 * \brief Prevents the subclass from being copied
+	 */
 	class noncopyable
 	{
 		noncopyable(const noncopyable&) = delete;
@@ -22,7 +27,9 @@ namespace nana
 		noncopyable() = default;
 	};
 
-	/// Prevent a class to be movable
+	/**
+	 * \brief Prevents the subclass from being moved
+	 */
 	class nonmovable
 	{
 		nonmovable(nonmovable&&) = delete;

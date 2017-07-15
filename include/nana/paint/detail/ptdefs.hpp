@@ -7,15 +7,28 @@ namespace nana
 	{
 		struct native_font_signature;
 
-		
+		/**
+		 * \brief Style of a font
+		 */
 		struct font_style
 		{
-			unsigned weight{ 400 };	//normal
+			///The font weight. 400 is normal
+			unsigned weight{ 400 };
+			///Whether the font is italic
 			bool italic{ false };
+			///Whether the font is underlined
 			bool underline{ false };
+			///Whether the font is strikeout
 			bool strike_out{ false };
 
 			font_style() = default;
+			/**
+			 * \brief Constructs a fontstyle with the given parameters
+			 * \param weight The weight
+			 * \param italic Whether the font is italice
+			 * \param underline Whether the font is underline
+			 * \param strike_out Whether the font is strikeout
+			 */
 			font_style(unsigned weight, bool italic = false, bool underline = false, bool strike_out = false);
 		};
 	}//end namespace detail

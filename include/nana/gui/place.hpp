@@ -84,7 +84,8 @@ namespace nana
 		struct implement;
 
 		/**
-		 * \brief Class for interacting with fields in the layout.
+		 * \interface field_interface
+		 * \brief Defines interactions with fields in the layout.
 		 */
 		class field_interface
 		{

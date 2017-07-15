@@ -1,4 +1,4 @@
-#include <nana/unicode_bidi.hpp>
+#include <nana/text/unicode_bidi.hpp>
 
 namespace nana
 {

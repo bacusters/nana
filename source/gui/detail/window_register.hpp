@@ -10,14 +10,15 @@ namespace nana
 {
 	namespace detail
 	{
+		/**
+		 * \brief Cache for key-value pairs. 
+		 */
 		template<typename Key, typename Value, std::size_t CacheSize>
 		class cache
 			: noncopyable
 		{
 		public:
-			typedef Key	key_type;
-			typedef Value value_type;
-			typedef std::pair<key_type, value_type> pair_type;
+			typedef std::pair<Key, Value> pair_type;
 			typedef std::size_t size_type;
 
 			cache()
@@ -35,13 +36,13 @@ namespace nana
 				for (std::size_t i = 0; i < CacheSize; ++i)
 				{
 					if (bitmap_[i])
-						addr_[i].~pair_type();
+						addr_[i].~pair_type(); //Destruct element
 				}
 
 				::operator delete(addr_);
 			}
 
-			bool insert(key_type k, value_type v)
+			bool insert(Key k, Value v)
 			{
 				size_type pos = _m_find_key(k);
 				if (pos != nana::npos)
@@ -73,7 +74,7 @@ namespace nana
 				return v;
 			}
 
-			value_type * get(key_type k)
+			Value * get(Key k)
 			{
 				size_type pos = _m_find_key(k);
 				if (pos != nana::npos)
@@ -81,7 +82,7 @@ namespace nana
 				return 0;
 			}
 		private:
-			size_type _m_find_key(key_type k) const
+			size_type _m_find_key(Key k) const
 			{
 				for (std::size_t i = 0; i < CacheSize; ++i)
 				{
@@ -235,9 +236,13 @@ namespace nana
 				return wdcache_.insert(wd, (base_.count(wd) != 0));
 			}
 		private:
+			///Cache for windows
 			mutable cache<window_handle_type, bool, 5> wdcache_;
+			///Set of all window handles
 			std::set<window_handle_type> base_;
+			///Thrash handles
 			std::vector<window_handle_type> trash_;
+			///Queue of window with root category
 			std::vector<window_handle_type> queue_;
 		};
 	}

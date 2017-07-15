@@ -17,7 +17,7 @@
 #include <typeinfo>
 #include <type_traits>
 
-#include "c++defines.hpp"
+#include <nana/c++defines.hpp>
 
 namespace nana
 {

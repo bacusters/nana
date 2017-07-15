@@ -6,6 +6,9 @@
 
 namespace nana
 {
+	/**
+	 * \brief Class for bidirectional unicode strings
+	 */
 	class unicode_bidi
 	{
 	public:
@@ -42,6 +45,9 @@ namespace nana
 			directional_override_status directional_override;	
 		};
 		
+		/**
+		 * \brief Class representing ...
+		 */
 		struct entity
 		{
 			const wchar_t * begin, * end;

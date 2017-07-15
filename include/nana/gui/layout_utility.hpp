@@ -32,8 +32,20 @@ namespace nana
 
 	bool intersection(const rectangle & r, point pos_beg, point pos_end, point& good_pos_beg, point& good_pos_end);
 
-	/// Zoom the input_s to fit for ref_s
+	/**
+	 * \brief Returns the largest rectangle of input that fits in the reference.
+	 * Maintains the aspect ratio of the input size, and scales it up to maximally occupy the reference size
+	 * \param input_s Input size 
+	 * \param ref_s Reference size
+	 * \param result_s Output size that maximally fits in the reference size.
+	 */
 	void fit_zoom(const size& input_s, const size& ref_s, size& result_s);
+	/**
+	* \brief Same as fit_zoom(const size& input_s, const size& ref_s, size& result_s), only returns a copy of the size
+	* \param input_s Input size
+	* \param ref_s Reference size
+	* \returns Output size that maximally fits in the reference size.
+	*/
 	size fit_zoom(const size& input_s, size ref_s);
 
 	//zoom

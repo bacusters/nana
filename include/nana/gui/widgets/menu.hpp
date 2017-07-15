@@ -19,12 +19,14 @@
 
 namespace nana
 {
+	//Forward declaration
 	class menu;
 
 	namespace drawerbase
 	{
 		namespace menu
 		{
+			//Forward declaration
 			struct menu_type; //declaration
 
 			using native_string_type = ::nana::detail::native_string_type;
@@ -128,29 +130,66 @@ namespace nana
 		typedef drawerbase::menu::menu_item_type::item_proxy item_proxy;
 		typedef drawerbase::menu::menu_item_type::event_fn_t event_fn_t;	///< A callback functor type. Prototype: `void(item_proxy&)`
 
-		menu();										///< The default constructor. NO OTHER CONSTRUCTOR.
+		/**
+		 * \brief Default constructor
+		 */
+		menu();
 		~menu();
 
-			/// Appends an item to the menu.
-		item_proxy	append(std::string text_utf8, const event_fn_t& handler = {});
-		void		append_splitter();
-
-		/// Inserts new item at specified position
 		/**
-		 * It will invalidate the existing item proxies from the specified position.
-		 * @param pos The position where new item to be inserted
-		 * @param text_utf8 The title of item
-		 * @param handler The event handler for the item.
-		 * @return the item proxy to the new inserted item.
+		 * \brief Append an item to the menu.
+		 * \param text_utf8 Label text for the menu item
+		 * \param handler Event handle for the menu item
+		 * \returns A proxy to the item.
 		 */
-		item_proxy	insert(std::size_t pos, std::string text_utf8, const event_fn_t& handler = {});
+		item_proxy append(std::string text_utf8, const event_fn_t& handler = {});
+		/**
+		 * \brief Append a splitter to the menu
+		 */
+		void append_splitter();
 
-		void clear();								///< Erases all of the items.
-		/// Closes the menu. It does not destroy the menu; just close the window for the menu.
+		/**
+		 * \brief  Inserts a new item at specified position in the menu
+		 * It will invalidate the existing item proxies from the specified position.
+		 * \param pos The position where the new item is to be inserted
+		 * \param text_utf8 The title of the item
+		 * \param handler The event handler for the item.
+		 * \returns The item proxy to the new inserted item.
+		 */
+		item_proxy insert(std::size_t pos, std::string text_utf8, const event_fn_t& handler = {});
+
+		/**
+		 * \brief Removes all menuitems
+		 */
+		void clear();
+		/**
+		 * \brief Closes the menu representation.
+		 * The function does not destroy the window
+		 */
 		void close();
+
+		/**
+		 * \brief Sets an image for the menu item at the specified location
+		 * \param pos Menu item location within the menu
+		 * \param icon The icon to set
+		 */
 		void image(std::size_t pos, const paint::image& icon);
+
+		/**
+		 * \brief Sets the menu item text for the menu item at the specified location
+		 * \param pos Menu item location within the menu
+		 * \param text_utf8 The new title for the menu item.
+		 */
 		void text(std::size_t pos, std::string text_utf8);
+
+		/**
+		 * \brief Returns the menu item title
+		 * \param pos Location of the menu item
+		 * \returns The menu item title
+		 */
 		std::string text(std::size_t pos) const;
+
+
 		void check_style(std::size_t pos, checks);
 		void checked(std::size_t pos, bool);
 		bool checked(std::size_t pos) const;

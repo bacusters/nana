@@ -37,6 +37,10 @@ namespace nana
 		 * \returns The font style
 		 */
 		virtual const font_style & style() const = 0;
+		/**
+		 * \brief Returns the native handle to the font
+		 * \returns The native handle
+		 */
 		virtual native_font_type native_handle() const = 0;
 	};
 }

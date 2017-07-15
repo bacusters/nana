@@ -26,9 +26,9 @@
     #endif
 
 	#include <shlobj.h>
-	#include <nana/datetime.hpp>
+	#include <nana/datatypes/datetime.hpp>
 #elif defined(NANA_POSIX)
-	#include <nana/charset.hpp>
+	#include <nana/text/charset.hpp>
 	#include <sys/stat.h>
 	#include <sys/types.h>
 	#include <dirent.h>
